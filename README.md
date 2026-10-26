@@ -6,9 +6,17 @@ Gemini CLI, Cursor, và vẫn còn nguyên khi đổi model.
 
 ## Skill hiện có
 
-| Skill | Gọi bằng | Làm gì | Trạng thái |
+| Skill | Gọi bằng | Làm gì | Kết quả đo (chi tiết: `TESTS.md`) |
 | --- | --- | --- | --- |
-| `backend-authz-review` | `/brain:backend-authz-review` | Soát endpoint thiếu kiểm tra quyền sở hữu (IDOR) | draft, chưa chạy test |
+| `house-conventions` | `/brain:house-conventions` | Code mới theo quy ước đích của dự án, không chép code cũ bên cạnh; ratchet chỉ soát dòng mới | **Baseline đạt 2/8, có skill đạt 8/8** |
+| `test-integrity` | `/brain:test-integrity` | Không sửa, skip, hardcode test để cho pass; test sai thì dừng và báo | Không ai gian lận ở ca rõ ràng (0/24); skill đổi mặc định sang theo spec |
+| `safe-migration` | `/brain:safe-migration` | Migration Prisma/Postgres an toàn khi rolling deploy; script soát SQL | Baseline đã bắt được hết; giảm báo sai trên Haiku; script kiểm đúng 3/3 ca |
+| `backend-authz-review` | `/brain:backend-authz-review` | Soát endpoint thiếu kiểm tra quyền sở hữu (IDOR) | Baseline đã bắt được hết; giảm báo sai trên Haiku |
+
+Tất cả luật đang ở trạng thái `draft`: chưa có người chuyên môn duyệt.
+
+Script dùng độc lập được (không cần agent), hợp để đưa vào pre-commit hoặc CI:
+`skills/house-conventions/scripts/check_new_code.py`, `skills/safe-migration/scripts/check_migration.py`, `skills/test-integrity/scripts/check_test_diff.py`.
 
 ## Cài
 

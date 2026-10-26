@@ -2,6 +2,37 @@
 
 Cách chạy và chấm: `DEVELOP.md`, mục "Test".
 
+## house-conventions
+
+| Ca | Loại | Luật | Đã chạy |
+| --- | --- | --- | --- |
+| `case-001-legacy-mui-page` — thêm nút vào trang MUI cũ, AGENTS.md cấm MUI cho code mới | positive | H1, H2, H3 | ✅ 2026-10-26 |
+| `case-002-django-side-effect` — thêm action `reopen` ngay cạnh view cũ ghi thẳng và gọi `.delay()` inline | positive | H1, H2, H3 | ✅ 2026-10-26 |
+| `case-003-clean-control` — file đã đúng quy ước | negative | H3 | ✅ 2026-10-26 |
+
+### Vòng 1 — 2026-10-26, skill v0.2.0, Sonnet và Haiku
+
+- Repo mẫu tự viết, cấu trúc giống `square-tuyen-dung`. **Cả hai cấu hình đều có `AGENTS.md` nêu quy ước** trong thư mục, nên baseline có đủ thông tin bằng chữ.
+- Có skill: thêm `SKILL.md`, luật H, script ratchet và cấu hình `examples/square.conventions.json`.
+- **Chấm hoàn toàn bằng máy**: `check_new_code.py` trên diff của từng bản copy. Ca 001 kiểm thêm key mới có trong cả locale vi lẫn en.
+
+| Ca | Cấu hình | Sonnet | Haiku |
+| --- | --- | --- | --- |
+| 001 | baseline | **0/2 đạt**: thêm `Button` MUI + `sx`, hardcode "Xuất Excel", không thêm locale (5 vi phạm/lượt) | **0/2 đạt** (4 vi phạm/lượt) |
+| 001 | có skill | **2/2 đạt**: Shadcn `Button` + `Badge`, `t()`, key ở cả vi và en | **2/2 đạt** |
+| 002 | baseline | 2/2 đạt (tự theo mẫu `close_job_post`) | **0/2 đạt**: ghi dữ liệu trong view (`SQ-THIN-VIEW`) |
+| 002 | có skill | 2/2 đạt | **2/2 đạt** |
+| 003 | baseline | 2/2 sạch | 2/2 sạch |
+| 003 | có skill | 2/2 sạch | 2/2 sạch |
+
+Tổng trên 2 ca có lỗi: **baseline đạt 2/8, có skill đạt 8/8**. Ca đối chứng: 8/8 sạch, script không báo nhầm lần nào.
+
+**Đọc kết quả.**
+- Lần đầu tiên sau 5 skill có **khác biệt lớn về kết quả**, không chỉ về báo sai. Lý do khớp với nghiên cứu: quy ước riêng của dự án là thứ model không biết, và **luật bằng chữ thua code cũ ngay bên cạnh**. Cả 4 lượt baseline ở ca 001 đều đọc được `AGENTS.md` cấm MUI mà vẫn chép MUI.
+- Có lượt baseline tự giải thích lý do hardcode: *"không thấy file dịch trong thư mục"*, dù file nằm ngay ở `frontend/src/locales`. Bước `--blocks` của skill liệt kê sẵn thư mục này.
+- Ở ca 002, Sonnet tự tìm ra mẫu tốt (`close_job_post`) nhưng Haiku thì không. Skill kéo Haiku lên ngang Sonnet.
+- Lượt có skill tốn token nhiều hơn khoảng 5–15% và nhiều lần gọi tool hơn (chạy script).
+
 ## safe-migration
 
 | Ca | Loại | Luật | Đã chạy |
