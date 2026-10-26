@@ -1,15 +1,16 @@
 # AGENTS.md
 
-Lối vào cho mọi coding agent. Giữ file này ngắn: chi tiết nằm trong `knowledge/` và `skills/`, chỉ đọc khi task cần.
+Lối vào cho mọi coding agent. Giữ file này ngắn: chi tiết nằm trong `skills/`, chỉ đọc khi task cần.
 
 ## Khi nhận task
-- Tìm skill phù hợp trong `skills/`. Có thì làm theo; quy tắc nó trỏ tới nằm trong `knowledge/`.
-- Chỉ áp dụng quy tắc có `status: reviewed` hoặc `verified`. Quy tắc `draft` chỉ để tham khảo, nếu dùng phải nói rõ.
+- Tìm skill phù hợp trong `skills/*/SKILL.md`. Có thì làm theo bảng "Mở khi" của nó.
+- Luật `draft` vẫn dùng được nhưng phải ghi rõ "(luật draft)".
 
 ## Khi xong task (bước compound)
-Nếu task có lỗi đáng nhớ, một lần sửa sai, hoặc một cách làm hiệu quả: tạo một file trong `lessons/` theo `lessons/_TEMPLATE.md`. Không tự sửa file trong `knowledge/` để biến bài học thành quy tắc; việc đó cần người duyệt.
+Nếu task có lỗi đáng nhớ, một lần sửa sai, hay một cách làm hiệu quả: tạo một file trong
+`lessons/` theo `lessons/_TEMPLATE.md`. Không tự biến bài học thành luật; việc đó cần người duyệt.
 
-## Không được
-- Không tự đổi `status` của quy tắc sang `verified`.
-- Không tự xác nhận kết quả của chính mình: dùng test, eval hoặc người review.
-- Không ghi secret, token, dữ liệu khách hàng vào repo này.
+## Khi sửa repo này
+- Theo `DEVELOP.md`. Chạy `python scripts/lint.py` trước khi commit.
+- Không tự đổi trạng thái luật sang `verified`, không sửa `locked-rules.md` khi chưa được hỏi.
+- Không ghi secret, token, dữ liệu khách hàng vào repo.

@@ -1,0 +1,14 @@
+{
+  "name": "engineering-brain",
+  "owner": { "name": "TODO" },
+  "metadata": {
+    "description": "Bộ skill kỹ thuật có nguồn và có test cho Claude Code."
+  },
+  "plugins": [
+    {
+      "name": "brain",
+      "source": "./",
+      "description": "Bộ skill kỹ thuật có nguồn và có test: review phân quyền backend, mở rộng dần sang FE, bảo mật, DevOps."
+    }
+  ]
+}

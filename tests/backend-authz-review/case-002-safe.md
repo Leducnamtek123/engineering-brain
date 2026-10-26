@@ -1,7 +1,7 @@
 ---
 id: backend-authz-review-002
 skill: backend-authz-review
-rules: [BE-AUTHZ-001]
+rules: [A1]
 kind: negative
 source: tu-viet
 ---
