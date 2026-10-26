@@ -98,7 +98,7 @@ def main():
                 errors += [f"{rules_file.relative_to(ROOT)} {x}" for x in e]
                 warnings += [f"{rules_file.relative_to(ROOT)} {x}" for x in w]
 
-    for case in sorted((ROOT / "tests").rglob("*.md")):
+    for case in sorted((ROOT / "tests").glob("*/case-*.md")):  # fixtures inside a case folder may have their own .md
         text = read(case)
         rel = case.relative_to(ROOT)
         if frontmatter_value(text, "kind") not in {"positive", "negative"}:
