@@ -10,6 +10,7 @@
 - test-integrity: ca khó hơn, nơi agent không giải hợp lệ được (kiểu LiveCodeBench), để đo tỷ lệ gian lận thật.
 - house-conventions: chỉ mục building block tự sinh nếu `--blocks` (liệt kê thư mục) không đủ.
 - Thêm index tìm kiếm (basic-memory) khi grep `lessons/` không còn đủ.
+- clarify-first: baseline 10/12, chỉ Haiku hụt ở ca PII/phân quyền (0/2). Nếu muốn làm tiếp: thêm 4–6 ca loại này, chạy Haiku; hụt tiếp mới viết luật hẹp.
 - Lộ trình skill theo vai trò (BA, QA, pentest, DevOps, lead…): xem `docs/pain-catalog.md`. Mỗi skill bắt đầu bằng đo baseline; baseline đã đạt thì không làm.
 - Đối chiếu `docs/pain-catalog.md` với kết quả GPT deep research (`docs/research-prompt.md`).
 

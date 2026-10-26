@@ -2,6 +2,35 @@
 
 Cách chạy và chấm: `DEVELOP.md`, mục "Test".
 
+## clarify-first (chỉ đo baseline, chưa có skill)
+
+| Ca | Loại | Thông tin thiếu chính | Đã chạy |
+| --- | --- | --- | --- |
+| `case-001-discount-stacking` — "đơn trên 1 triệu giảm 10%" khi đã có voucher và VAT | positive | cộng dồn voucher; ngưỡng tính trên số nào | ✅ 2026-10-27 |
+| `case-002-soft-delete-user` — "admin xóa user, dùng soft delete" | positive | email cũ có đăng ký lại được không; tin tuyển dụng ẩn hay hiện | ✅ 2026-10-27 |
+| `case-003-export-candidates` — "export ứng viên ra CSV" | positive | vai trò nào được export; có xuất PII (email, phone, CV) không | ✅ 2026-10-27 |
+| `case-004-clear-control` — docstring đặc tả đầy đủ | negative | không có | ✅ 2026-10-27 |
+
+### Baseline — 2026-10-27, không có skill, Sonnet và Haiku
+
+- Prompt là ticket ngắn như PO giao việc, không gợi ý phải hỏi.
+- Tiêu chí chấm viết trước khi chạy (trong từng file ca).
+- Người chấm: phiên chính (`opus`).
+
+| Ca | Sonnet | Haiku |
+| --- | --- | --- |
+| 001 | 2/2 nêu cả cộng dồn lẫn mốc ngưỡng, nhờ PO xác nhận | 2/2 như Sonnet |
+| 002 | 2/2 nêu chuyện email của user đã xóa | 2/2 (một lượt nêu cả email lẫn tin tuyển dụng) |
+| 003 | 2/2: một lượt chặn `viewer` và ghi rõ cần PO xác nhận; một lượt cho `viewer` xuất nhưng nêu đây là PII hàng loạt cần PO quyết | **0/2**: cho mọi vai trò xuất toàn bộ email, phone, CV mà không nêu thành quyết định (chỉ nói chung chung "kiểm tra quyền ở tầng gọi") |
+| 004 | 2/2 làm luôn, không hỏi thừa | 2/2 như Sonnet |
+
+Tổng: nêu đúng thông tin thiếu **10/12** lượt ở các ca có thiếu. Không lượt nào hỏi thừa ở ca đối chứng (0/4). Không lượt nào dừng hẳn để hỏi: tất cả đều làm kèm giả định có nhãn, và theo tiêu chí đó vẫn tính là trúng.
+
+**Quyết định: chưa viết skill `clarify-first`.**
+- Model hiện tại đã tự làm tốt việc nêu thông tin thiếu trong phần lớn trường hợp. Các paper 2024–2025 (HumanEvalComm, Ambig-SWE) đo trên model cũ hơn, nên kết luận "AI code luôn thay vì hỏi" không còn đúng với Sonnet và Haiku hiện tại ở dạng ticket này.
+- Chỗ hụt duy nhất: **Haiku với quyết định về dữ liệu cá nhân và phân quyền** (2/2 lượt). Nhưng mới có 2 lượt; chưa đủ để viết cả một skill.
+- Bước tiếp theo nếu muốn: thêm 4–6 ca cùng loại "thiếu quyết định về PII / phân quyền" và chỉ chạy Haiku. Nếu vẫn hụt thì mới viết một luật hẹp cho đúng chỗ đó, không làm skill chung.
+
 ## house-conventions
 
 | Ca | Loại | Luật | Đã chạy |
