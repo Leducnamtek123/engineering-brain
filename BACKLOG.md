@@ -1,21 +1,21 @@
 # Backlog
 
 ## Bây giờ
-- ~~Chạy baseline và có skill cho 2 ca~~ (xong 2026-10-26: skill cắt hết báo sai, chưa tăng tỷ lệ bắt lỗi).
-- ~~Xử lý bài học Prisma `undefined`~~ (xong: A2, ca 003, v0.1.2).
-- ~~Chạy lại ca 001 và 002 với v0.1.2~~ (xong vòng 5, không có gì tệ đi).
-- ~~Agent đọc `lessons/` lúc bắt đầu task~~ (thêm vào `AGENTS.md`). ~~CI chạy lint~~ (`.github/workflows/lint.yml`).
+- **Đưa house-conventions vào square-tuyen-dung**: thêm `check_new_code.py` + `square.conventions.json` vào pre-commit hoặc CI (`--base origin/main`). Cần người của dự án đồng ý vì đụng repo công ty.
+- Dùng house-conventions trên task thật ở Square 2–4 tuần, ghi `lessons/`, đo số commit "refactor/sửa lại quy ước" trước và sau (mốc: 30 commit gần nhất thêm khoảng 229 dòng vi phạm).
+- Mở rộng `square.conventions.json` khi gặp lỗi lặp lại mới (mỗi luật mới cần một ca test).
 - Chọn license (đang để `TODO` trong `plugin.json`, chưa có file `LICENSE`).
-- ~~Ca khó: service, update/delete, orgId lồng; chạy sonnet + haiku~~ (xong vòng 3: 24/24 trúng ở mọi cấu hình, nên vẫn chưa đo được tỷ lệ bắt lỗi; skill cắt báo sai của haiku 3 → 0).
-- ~~Ca dạng repo nhiều file~~ (xong vòng 4: 8/8 trúng ở mọi cấu hình. Qua 42 lượt chưa có baseline nào bỏ sót IDOR).
-- **Quyết định cần người chốt:** với lỗi phân quyền kiểu IDOR, model đã tự làm tốt, nên skill này chỉ còn giá trị ở độ chính xác và khuôn báo cáo. Hai hướng:
-  1. Giữ skill gọn như hiện tại để dùng cho model nhỏ và CI, rồi chuyển sang skill khác.
-  2. Chuyển sang mảng mà model hay sai vì **quy ước riêng của dự án** (ví dụ cách đặt tên quyền, policy layer nội bộ, quy ước multi-tenant của Square). Ở đó skill có cơ hội tăng tỷ lệ bắt lỗi.
-- Nếu muốn đo tiếp tỷ lệ bắt lỗi: lấy diff thật từ lịch sử bug của dự án (lỗi đã từng lọt qua review), không tự viết ca.
-- Thêm 8–18 ca nữa từ dự án thật (đã xoá dữ liệu nhạy cảm), có cả ca negative.
-- Nhờ người có chuyên môn bảo mật duyệt `A1` để lên `reviewed`.
+- Nhờ người có chuyên môn duyệt luật để lên `reviewed`: A1, A2 (bảo mật), M1–M4 (DB), H1–H3 (lead của Square).
 
 ## Sau
-- Luật tiếp theo cho phân quyền: tin `userId` / `role` từ body, mass assignment, endpoint admin thiếu kiểm vai trò.
-- Skill thứ hai, chọn theo lỗi lặp lại nhiều nhất trong `lessons/`.
-- Thêm index tìm kiếm (basic-memory) khi grep không còn đủ.
+- test-integrity: ca khó hơn, nơi agent không giải hợp lệ được (kiểu LiveCodeBench), để đo tỷ lệ gian lận thật.
+- house-conventions: chỉ mục building block tự sinh nếu `--blocks` (liệt kê thư mục) không đủ.
+- Thêm index tìm kiếm (basic-memory) khi grep `lessons/` không còn đủ.
+- Đối chiếu `docs/pain-research.md` với kết quả từ `docs/research-prompt.md` (GPT deep research), chọn skill tiếp theo theo 3 tiêu chí trong `lessons/2026-10-26-skill-value-pattern.md`.
+
+## Đã xong (2026-10-26)
+- backend-authz-review: A1, A2, 7 ca, 5 vòng (46 lượt). Baseline đã bắt được hết IDOR; skill giảm báo sai trên Haiku.
+- test-integrity: T1–T4, script soát diff test, 3 ca (24 lượt). Không ai gian lận ở ca rõ ràng.
+- safe-migration: M1–M4, script soát SQL, 3 ca (24 lượt). Baseline đã bắt được hết; script kiểm đúng 3/3.
+- house-conventions: H1–H3, ratchet theo cấu hình, 3 ca (24 lượt). **Baseline 2/8, có skill 8/8.**
+- Agent đọc `lessons/` lúc bắt đầu task; CI chạy lint (đang chờ billing GitHub).
