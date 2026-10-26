@@ -7,7 +7,7 @@ Nguồn duy nhất cho cách viết code mới trong codebase còn code cũ lệ
 ## H1. Code mới theo quy ước đích, không chép code bên cạnh
 
 - Mức: must · Trạng thái: draft
-- Test: `tests/house-conventions/case-001-legacy-mui-page.md`, `tests/house-conventions/case-002-django-side-effect.md`
+- Test: `lab:tests/house-conventions/case-001-legacy-mui-page.md`, `lab:tests/house-conventions/case-002-django-side-effect.md`
 - Nguồn: [AgentPatterns: Pattern Replication Risk](https://agentpatterns.ai/patterns/anti-patterns/pattern-replication-risk/) (kiểm 2026-10-26)
 
 **Luật.** Khi file đang sửa (hoặc file mẫu gần nhất) dùng pattern mà tài liệu dự án nói là cũ hoặc cấm, phần code **mới thêm**
@@ -29,7 +29,7 @@ và ghi chú trong báo cáo; không tự chuyển cả file cũ trừ khi đư�
 ## H2. Tìm building block có sẵn trước khi viết mới
 
 - Mức: should · Trạng thái: draft
-- Test: `tests/house-conventions/case-001-legacy-mui-page.md`, `tests/house-conventions/case-002-django-side-effect.md`
+- Test: `lab:tests/house-conventions/case-001-legacy-mui-page.md`, `lab:tests/house-conventions/case-002-django-side-effect.md`
 - Nguồn: [AgentPatterns: Pattern Replication Risk](https://agentpatterns.ai/patterns/anti-patterns/pattern-replication-risk/) (kiểm 2026-10-26)
 
 **Luật.** Trước khi tạo component, hook, helper, service mới, liệt kê các thư mục building block của dự án
@@ -48,7 +48,7 @@ và ghi chú trong báo cáo; không tự chuyển cả file cũ trừ khi đư�
 ## H3. Kiểm dòng mới bằng máy trước khi báo xong
 
 - Mức: must · Trạng thái: draft
-- Test: `tests/house-conventions/case-001-legacy-mui-page.md`, `tests/house-conventions/case-002-django-side-effect.md`, `tests/house-conventions/case-003-clean-control.md`
+- Test: `lab:tests/house-conventions/case-001-legacy-mui-page.md`, `lab:tests/house-conventions/case-002-django-side-effect.md`, `lab:tests/house-conventions/case-003-clean-control.md`
 - Nguồn: [I Wrote 200 Lines of Rules for Claude Code. It Ignored Them All.](https://dev.to/minatoplanb/i-wrote-200-lines-of-rules-for-claude-code-it-ignored-them-all-4639) (kiểm 2026-10-26); [AgentPatterns: Pattern Replication Risk](https://agentpatterns.ai/patterns/anti-patterns/pattern-replication-risk/) (kiểm 2026-10-26)
 
 **Luật.** Chạy `scripts/check_new_code.py` với cấu hình của dự án trên diff so với nhánh gốc. Chỉ dòng **mới** bị soát,

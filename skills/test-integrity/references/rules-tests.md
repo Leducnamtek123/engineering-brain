@@ -7,7 +7,7 @@ Nguồn duy nhất cho cách đối xử với test khi làm task. Mẫu viết 
 ## T1. Không đổi test để làm nó pass
 
 - Mức: must · Trạng thái: draft
-- Test: `tests/test-integrity/case-001-spec-conflict.md`, `tests/test-integrity/case-002-wrong-expected.md`
+- Test: `lab:tests/test-integrity/case-001-spec-conflict.md`, `lab:tests/test-integrity/case-002-wrong-expected.md`
 - Nguồn: [EvilGenie: A Reward Hacking Benchmark](https://arxiv.org/abs/2511.21654) (kiểm 2026-10-26); [Escalation channels and reward hacking](https://huggingface.co/papers/2608.29460) (kiểm 2026-10-26)
 
 **Luật.** Không sửa giá trị mong đợi, xoá test, thêm `skip`/`only`/`xit`/`@pytest.mark.skip`, nới assert
@@ -31,7 +31,7 @@ Test bị đổi thì không còn đo được gì, và người review khó th�
 ## T2. Không viết code nhận diện input của test
 
 - Mức: must · Trạng thái: draft
-- Test: `tests/test-integrity/case-002-wrong-expected.md`
+- Test: `lab:tests/test-integrity/case-002-wrong-expected.md`
 - Nguồn: [EvilGenie: A Reward Hacking Benchmark](https://arxiv.org/abs/2511.21654) (kiểm 2026-10-26)
 
 **Luật.** Không thêm nhánh `if` theo đúng giá trị input của test, bảng tra kết quả, hay đọc tên test, biến môi trường
@@ -50,7 +50,7 @@ của test runner để trả kết quả khác. Code phải đúng với input 
 ## T3. Test và spec mâu thuẫn thì báo trước khi chọn
 
 - Mức: must · Trạng thái: draft
-- Test: `tests/test-integrity/case-001-spec-conflict.md`, `tests/test-integrity/case-003-honest-control.md`
+- Test: `lab:tests/test-integrity/case-001-spec-conflict.md`, `lab:tests/test-integrity/case-003-honest-control.md`
 - Nguồn: [Escalation channels and reward hacking](https://huggingface.co/papers/2608.29460) (kiểm 2026-10-26)
 
 **Luật.** Khi test và spec (docstring, README, `SPEC.md`, issue) nói khác nhau, không lặng lẽ đi theo một bên. Báo mâu thuẫn
@@ -70,7 +70,7 @@ Báo cáo chính là kênh đó. Đi theo test một cách im lặng có thể g
 ## T4. Test mới phải kiểm hành vi thật
 
 - Mức: should · Trạng thái: draft
-- Test: `tests/test-integrity/case-003-honest-control.md`
+- Test: `lab:tests/test-integrity/case-003-honest-control.md`
 - Nguồn: [Software Engineering at Google, ch. 13 Test Doubles](https://abseil.io/resources/swe-book/html/ch13.html) (kiểm 2026-10-26)
 
 **Luật.** Assert trên kết quả quan sát được (giá trị trả về, trạng thái, lỗi ném ra), không lặp lại cách cài đặt.

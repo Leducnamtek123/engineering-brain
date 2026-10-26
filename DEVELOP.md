@@ -16,12 +16,14 @@ skills/
     └── references/
         ├── rules-authz.md luật A, mỗi luật có mã, nguồn, ngày kiểm, test
         └── locked-rules.md luật đã chốt và lý lẽ đã bị bác
-tests/<skill>/             ca test có đáp án, mỗi file một ca
 TESTS.md                   danh sách ca và bảng kết quả baseline với có skill
-lessons/                   bài học thô sau mỗi task, chưa phải luật
 BACKLOG.md                 skill và luật định làm
 scripts/lint.py            soát cấu trúc trước khi commit
 ```
+
+Ca test (`tests/<skill>/`), bài học (`lessons/`) và nghiên cứu (`docs/`) nằm ở repo private [engineering-brain-lab](https://github.com/Leducnamtek123/engineering-brain-lab),
+để plugin cài về máy người dùng chỉ có skill. Đặt hai repo cạnh nhau rồi chạy
+`python scripts/lint.py --lab ../engineering-brain-lab`.
 
 Skill tự chứa: mọi luật nó dùng nằm trong `references/` của chính nó, nên copy một thư mục
 skill sang agent khác là chạy được.
@@ -34,7 +36,7 @@ skill sang agent khác là chạy được.
 ## X1. Tên ngắn nói rõ vấn đề
 
 - Mức: must · Trạng thái: draft
-- Test: `tests/<skill>/case-001-....md`
+- Test: `lab:tests/<skill>/case-001-....md`
 - Nguồn: [Tên nguồn](https://...) (kiểm YYYY-MM-DD)
 
 **Luật.** Một hai câu làm theo được và kiểm tra được. Không dùng tính từ kiểu "tốt", "hiện đại".
@@ -55,7 +57,7 @@ skill sang agent khác là chạy được.
 
 ## Test
 
-Mỗi ca trong `tests/<skill>/` có `kind: positive` (có lỗi phải bắt) hoặc `kind: negative`
+Mỗi ca trong `tests/<skill>/` của repo lab có `kind: positive` (có lỗi phải bắt) hoặc `kind: negative`
 (code đúng, không được báo). Phải có cả hai loại, không thì không đo được báo sai.
 
 1. **Baseline:** chạy ca khi **chưa có** skill. Prompt giống hệt nhau giữa các lần.

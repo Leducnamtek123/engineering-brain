@@ -3,7 +3,11 @@
 Máy chỉ soát hình thức, không hiểu nội dung luật đúng hay sai: việc đó cần người duyệt.
 
     python scripts/lint.py               soát cả repo, có lỗi thì thoát mã 1
+    python scripts/lint.py --lab ../engineering-brain-lab   soát thêm ca test nằm ở repo lab
     python scripts/lint.py --self-test   tự kiểm hàm soát luật
+
+Ca test nằm ở repo private engineering-brain-lab; luật trỏ tới bằng `lab:tests/...`.
+Không truyền --lab thì bỏ qua bước kiểm file test có tồn tại.
 """
 import json
 import re
@@ -30,7 +34,7 @@ def frontmatter_value(text, key):
     return v.group(1).strip() if v else None
 
 
-def check_rule(code, body, today):
+def check_rule(code, body, today, lab=None):
     """Soát một mục luật. Trả (lỗi, cảnh báo)."""
     errors, warnings = [], []
     level = re.search(r"Mức:\s*(\w+)", body)
@@ -53,7 +57,11 @@ def check_rule(code, body, today):
     test_line = re.search(r"^- Test:(.*)$", body, re.M)
     tests = re.findall(r"`([^`]+)`", test_line.group(1)) if test_line else []
     for t in tests:
-        if not (ROOT / t).exists():
+        if t.startswith("lab:"):
+            missing = lab is not None and not (lab / t[4:]).exists()
+        else:
+            missing = not (ROOT / t).exists()
+        if missing:
             errors.append(f"{code}: không thấy test {t}")
     if status and status.group(1) == "verified" and not tests:
         errors.append(f"{code}: luật verified phải có test")
@@ -65,7 +73,7 @@ def split_rules(text):
     return list(zip(parts[1::2], parts[2::2]))
 
 
-def main():
+def main(lab=None):
     today = date.today()
     errors, warnings, codes = [], [], set()
 
@@ -94,13 +102,14 @@ def main():
                 if code in codes:
                     errors.append(f"{code}: mã luật bị trùng")
                 codes.add(code)
-                e, w = check_rule(code, body, today)
+                e, w = check_rule(code, body, today, lab)
                 errors += [f"{rules_file.relative_to(ROOT)} {x}" for x in e]
                 warnings += [f"{rules_file.relative_to(ROOT)} {x}" for x in w]
 
-    for case in sorted((ROOT / "tests").glob("*/case-*.md")):  # fixtures inside a case folder may have their own .md
+    base = lab if lab is not None else ROOT
+    for case in sorted((base / "tests").glob("*/case-*.md")):  # fixtures inside a case folder may have their own .md
         text = read(case)
-        rel = case.relative_to(ROOT)
+        rel = case.relative_to(base)
         if frontmatter_value(text, "kind") not in {"positive", "negative"}:
             errors.append(f"{rel}: 'kind' phải là positive hoặc negative")
         for code in re.findall(r"[A-Z]+\d+", frontmatter_value(text, "rules") or ""):
@@ -126,6 +135,10 @@ def self_test():
     verified_no_test = good.replace("draft", "verified").replace("- Test: `README.md`\n", "")
     e, _ = check_rule("A1", verified_no_test, date(2026, 2, 1))
     assert any("verified" in x for x in e), e
+    lab_rule = good.replace("`README.md`", "`lab:README.md`")
+    assert check_rule("A1", lab_rule, date(2026, 2, 1)) == ([], []), "không có --lab thì không kiểm"
+    assert check_rule("A1", lab_rule, date(2026, 2, 1), ROOT)[0] == []
+    assert check_rule("A1", lab_rule.replace("README", "nope"), date(2026, 2, 1), ROOT)[0], "có --lab thì phải kiểm"
     assert [c for c, _ in split_rules("x\n## A1. a\nb\n## A2. c\n")] == ["A1", "A2"]
     print("self-test OK")
 
@@ -135,4 +148,7 @@ if __name__ == "__main__":
     if "--self-test" in sys.argv:
         self_test()
     else:
-        sys.exit(main())
+        lab = Path(sys.argv[sys.argv.index("--lab") + 1]).resolve() if "--lab" in sys.argv else None
+        if lab is not None and not (lab / "tests").is_dir():
+            sys.exit(f"--lab {lab}: không thấy thư mục tests/")
+        sys.exit(main(lab))

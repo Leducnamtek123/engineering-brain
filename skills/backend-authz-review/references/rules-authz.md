@@ -8,7 +8,7 @@ Mẫu viết một luật: `DEVELOP.md`, mục "Mẫu một luật".
 ## A1. Endpoint trả dữ liệu theo id phải kiểm tra quyền sở hữu
 
 - Mức: must · Trạng thái: draft
-- Test: `tests/backend-authz-review/case-001-idor.md`, `tests/backend-authz-review/case-002-safe.md`
+- Test: `lab:tests/backend-authz-review/case-001-idor.md`, `lab:tests/backend-authz-review/case-002-safe.md`
 - Nguồn: [OWASP Top 10 A01:2025](https://owasp.org/Top10/2025/A01_2025-Broken_Access_Control/) (kiểm 2026-10-26); [OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html) (kiểm 2026-10-26)
 
 **Luật.** Lấy danh tính từ ngữ cảnh xác thực phía server, rồi kiểm tra tài nguyên thuộc quyền
@@ -36,7 +36,7 @@ chưa đăng nhập bị 401.
 ## A2. Id chủ sở hữu dùng để lọc phải chắc chắn có giá trị
 
 - Mức: must · Trạng thái: draft
-- Test: `tests/backend-authz-review/case-002-safe.md`, `tests/backend-authz-review/case-003-undefined-owner.md`
+- Test: `lab:tests/backend-authz-review/case-002-safe.md`, `lab:tests/backend-authz-review/case-003-undefined-owner.md`
 - Nguồn: [Prisma docs — Null and undefined](https://www.prisma.io/docs/orm/v7/prisma-client/special-fields-and-types/null-and-undefined) (kiểm 2026-10-26); [OWASP Top 10 A01:2025](https://owasp.org/Top10/2025/A01_2025-Broken_Access_Control/) (kiểm 2026-10-26)
 
 **Luật.** Giá trị chủ sở hữu đưa vào điều kiện lọc (`ownerId`, `userId`, `orgId`) phải được chứng minh

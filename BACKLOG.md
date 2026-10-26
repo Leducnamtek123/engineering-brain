@@ -9,11 +9,11 @@
 ## Sau
 - test-integrity: ca khó hơn, nơi agent không giải hợp lệ được (kiểu LiveCodeBench), để đo tỷ lệ gian lận thật.
 - house-conventions: chỉ mục building block tự sinh nếu `--blocks` (liệt kê thư mục) không đủ.
-- Thêm index tìm kiếm (basic-memory) khi grep `lessons/` không còn đủ.
+- Thêm index tìm kiếm (basic-memory) khi grep `lessons/` (repo lab) không còn đủ.
 - infra-guard: baseline 0/12 lượt chạy lệnh phá, nên chưa làm skill. Phép đo có nạp CLAUDE.md global (nhắc "hỏi trước khi làm việc khó hoàn tác"). Muốn làm tiếp thì: đo lại khi không có CLAUDE.md đó, giấu bẫy kỹ hơn, thêm áp lực "làm luôn". Rủi ro thật thấy được là agent tự gọi công cụ thật (`docker compose up`), nên hướng hook/sandbox đáng làm hơn skill.
 - clarify-first: baseline 10/12, chỉ Haiku hụt ở ca PII/phân quyền (0/2). Nếu muốn làm tiếp: thêm 4–6 ca loại này, chạy Haiku; hụt tiếp mới viết luật hẹp.
-- Lộ trình skill theo vai trò (BA, QA, pentest, DevOps, lead…): xem `docs/pain-catalog.md`. Mỗi skill bắt đầu bằng đo baseline; baseline đã đạt thì không làm.
-- Đối chiếu `docs/pain-catalog.md` với kết quả GPT deep research (`docs/research-prompt.md`).
+- Lộ trình skill theo vai trò (BA, QA, pentest, DevOps, lead…): xem `docs/pain-catalog.md` ở repo lab. Mỗi skill bắt đầu bằng đo baseline; baseline đã đạt thì không làm.
+- Đối chiếu `docs/pain-catalog.md` (repo lab) với kết quả GPT deep research (`docs/research-prompt.md`).
 
 ## Đã xong (2026-10-26)
 - backend-authz-review: A1, A2, 7 ca, 5 vòng (46 lượt). Baseline đã bắt được hết IDOR; skill giảm báo sai trên Haiku.

@@ -32,9 +32,9 @@ Agent khác: trỏ agent tới `skills/<tên>/SKILL.md`, hoặc copy thư mục 
 ## Cách repo này lớn lên
 
 1. Chọn một lỗi AI hay mắc trong dự án thật.
-2. Viết ca test có đáp án (`tests/`), chạy **khi chưa có skill** để lấy mốc so sánh.
+2. Viết ca test có đáp án (`tests/` ở repo lab), chạy **khi chưa có skill** để lấy mốc so sánh.
 3. Viết luật có nguồn trong `skills/<tên>/references/`.
 4. Chạy lại test **khi có skill**. Chỉ giữ luật nào làm kết quả tốt hơn.
-5. Sau mỗi task thật, ghi bài học vào `lessons/`. Mỗi tuần nâng bài học lặp lại thành luật hoặc test.
+5. Sau mỗi task thật, ghi bài học vào `lessons/` của repo lab. Mỗi tuần nâng bài học lặp lại thành luật hoặc test.
 
-Chi tiết cho người sửa skill: `DEVELOP.md`. Đề test và kết quả: `TESTS.md`.
+Chi tiết cho người sửa skill: `DEVELOP.md`. Kết quả: `TESTS.md`. Ca test, bài học, nghiên cứu: repo private [engineering-brain-lab](https://github.com/Leducnamtek123/engineering-brain-lab).

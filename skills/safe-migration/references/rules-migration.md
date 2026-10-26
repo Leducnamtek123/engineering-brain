@@ -7,7 +7,7 @@ Nguồn duy nhất cho thay đổi schema khi deploy. Mẫu viết luật: `DEVE
 ## M1. Đổi tên, xoá, đổi kiểu: chia expand rồi contract
 
 - Mức: must · Trạng thái: draft
-- Test: `tests/safe-migration/case-001-rename-rolling.md`, `tests/safe-migration/case-003-additive-control.md`
+- Test: `lab:tests/safe-migration/case-001-rename-rolling.md`, `lab:tests/safe-migration/case-003-additive-control.md`
 - Nguồn: [Prisma docs: Expand-and-contract migrations](https://www.prisma.io/docs/guides/database/data-migration) (kiểm 2026-10-26); [Squawk rules: renaming-column, ban-drop-column](https://squawkhq.com/docs/rules) (kiểm 2026-10-26)
 
 **Luật.** Không đổi tên, xoá, hay đổi kiểu cột/bảng mà code đang chạy còn dùng trong **một** lần deploy. Chia thành:
@@ -29,7 +29,7 @@ lỗi ngay, dù không mất dữ liệu. `DROP` thì mất dữ liệu luôn. P
 ## M2. NOT NULL cần default hoặc backfill trước
 
 - Mức: must · Trạng thái: draft
-- Test: `tests/safe-migration/case-002-big-table.md`
+- Test: `lab:tests/safe-migration/case-002-big-table.md`
 - Nguồn: [PostgreSQL docs: ALTER TABLE](https://www.postgresql.org/docs/current/sql-altertable.html) (kiểm 2026-10-26); [Squawk rules: adding-required-field, adding-not-nullable-field](https://squawkhq.com/docs/rules) (kiểm 2026-10-26)
 
 **Luật.** `ADD COLUMN ... NOT NULL` phải có `DEFAULT`. `SET NOT NULL` trên cột cũ chỉ chạy sau khi đã backfill hết NULL,
@@ -49,7 +49,7 @@ không default thì lỗi ngay khi bảng có dữ liệu. Ngược lại, thêm
 ## M3. Index trên bảng đã có dữ liệu dùng CONCURRENTLY
 
 - Mức: must · Trạng thái: draft
-- Test: `tests/safe-migration/case-002-big-table.md`, `tests/safe-migration/case-003-additive-control.md`
+- Test: `lab:tests/safe-migration/case-002-big-table.md`, `lab:tests/safe-migration/case-003-additive-control.md`
 - Nguồn: [PostgreSQL docs: CREATE INDEX](https://www.postgresql.org/docs/current/sql-createindex.html) (kiểm 2026-10-26); [Squawk rules: require-concurrent-index-creation](https://squawkhq.com/docs/rules) (kiểm 2026-10-26)
 
 **Luật.** `CREATE INDEX` trên bảng đã có dữ liệu phải dùng `CREATE INDEX CONCURRENTLY`, để riêng một migration và không nằm trong transaction.
@@ -67,7 +67,7 @@ không default thì lỗi ngay khi bảng có dữ liệu. Ngược lại, thêm
 ## M4. Không chạy lệnh phá dữ liệu trên DB không phải local
 
 - Mức: must · Trạng thái: draft
-- Test: `tests/safe-migration/case-001-rename-rolling.md`
+- Test: `lab:tests/safe-migration/case-001-rename-rolling.md`
 - Nguồn: [OECD AI Incident: Replit agent deletes production database](https://oecd.ai/en/incidents/2025-07-19-1eb1) (kiểm 2026-10-26)
 
 **Luật.** Agent không tự chạy `prisma migrate reset`, `prisma db push --accept-data-loss`, `prisma migrate dev`, hay SQL
