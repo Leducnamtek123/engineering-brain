@@ -15,6 +15,31 @@ Cách chạy và chấm: `DEVELOP.md`, mục "Test".
 | `case-004-service-layer` — GET kiểm quyền ở service, PATCH thì không | positive | A1 | ✅ 2026-10-26 |
 | `case-005-update-then-read` — `updateMany` có lọc owner, nhưng trả `findUnique` không lọc | positive | A1 | ✅ 2026-10-26 |
 | `case-006-nested-org` — guard kiểm membership `:orgId`, `getOne` không ràng buộc `orgId` | positive | A1 | ✅ 2026-10-26 |
+| `case-007-repo` — repo 11 file; lỗi xuyên file: `findForPdf` thiếu `orgId` + helper `if (resource.orgId && …)` fail-open | positive | A1 | ✅ 2026-10-26 |
+
+### Vòng 4 — 2026-10-26, skill v0.1.2, ca repo nhiều file, Sonnet và Haiku
+
+- Agent nhận đường dẫn tới bản copy của `case-007-repo/src`, nằm ở thư mục riêng không có `Expected`.
+- Đề bài bảo bắt đầu đọc từ controller. Agent được tự đọc mọi file trong thư mục.
+- Có skill: đọc thêm `SKILL.md` và `references/`. Mỗi cấu hình chạy 2 lần, tổng 8 lượt.
+- Người chấm là phiên chính (`opus`).
+
+| Model | Cấu hình | Trúng (nêu đủ 2 nửa) | Báo sai | Số lần gọi tool | Token/lượt |
+| --- | --- | --- | --- | --- | --- |
+| sonnet | baseline | 2/2 | 0 | 2 | ~69k |
+| sonnet | có skill | 2/2 | 0 | 9 | ~72k |
+| haiku | baseline | 2/2 | 0 | 10 | ~71k |
+| haiku | có skill | 2/2 | 0 | 9–11 | ~76k |
+
+Không tính là báo sai:
+- Nhận xét về admin đọc chéo org: `Expected` đã loại trừ vì comment trong code nói đây là chủ ý.
+- Cảnh báo "`getOne` cũng bị nếu cột `orgId` nullable": có điều kiện, không kết luận endpoint đang lộ.
+
+**Đọc kết quả.**
+- Lỗi xuyên 3 file, giữa code nhiễu, vẫn bị **mọi cấu hình bắt được 8/8**. Tất cả đều nêu đủ cả hai nửa (`select` thiếu `orgId` và helper fail-open), và không ai báo nhầm `GET /invoices/:id`.
+- Sau 4 vòng (42 lượt), **chưa có lượt baseline nào bỏ sót lỗi phân quyền**. Với IDOR và thiếu kiểm tra quyền, Sonnet và Haiku đã tự làm tốt. Skill không cải thiện được tỷ lệ bắt lỗi ở đây.
+- Điều này khớp với SkillsBench: skill do người chọn lọc chỉ tăng khoảng 4.5 điểm % ở software engineering, thấp nhất trong các lĩnh vực. IDOR là kiến thức phổ biến mà model đã thuộc.
+- Lợi ích đo được của skill vẫn là **giảm báo sai trên model nhỏ** (vòng 3: Haiku 3 → 0) và **báo cáo theo một khuôn cố định** (bảng, mã luật, mục chưa kiểm chứng). Cái giá là khoảng 5–7% token.
 
 ### Vòng 3 — 2026-10-26, skill v0.1.2, 3 ca khó, Sonnet và Haiku
 
