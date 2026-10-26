@@ -2,6 +2,37 @@
 
 Cách chạy và chấm: `DEVELOP.md`, mục "Test".
 
+## safe-migration
+
+| Ca | Loại | Luật | Đã chạy |
+| --- | --- | --- | --- |
+| `case-001-rename-rolling` — `RENAME COLUMN` sửa tay, deploy rolling 3 replica | positive | M1, M4 | ✅ 2026-10-26 |
+| `case-002-big-table` — `CREATE INDEX` không CONCURRENTLY trên bảng 40 triệu dòng, cùng `ADD COLUMN ... DEFAULT 'web'` (bẫy báo sai) | positive | M2, M3 | ✅ 2026-10-26 |
+| `case-003-additive-control` — thêm cột nullable, bảng mới, unique index trên bảng mới | negative | M1, M3 | ✅ 2026-10-26 |
+
+### Vòng 1 — 2026-10-26, skill v0.2.0, Sonnet và Haiku
+
+- Mỗi lượt là một bản copy repo riêng (docs/DEPLOY.md, prisma/, src/). Agent được yêu cầu review và không chạy gì vào database.
+- Có skill: agent đọc `SKILL.md`, được chạy `check_migration.py`.
+- Người chấm: phiên chính (`opus`).
+- "Báo sai" ở ca 002 nghĩa là xếp `ADD COLUMN ... DEFAULT 'web'` ở mức High hoặc chặn. Ghi chú về `lock_timeout` ở mức Medium hay Low thì không tính.
+
+| Ca | Cấu hình | Sonnet | Haiku |
+| --- | --- | --- | --- |
+| 001 | baseline | 2/2 trúng (pod cũ lỗi khi rolling, đề xuất expand-contract) | 2/2 trúng |
+| 001 | có skill | 2/2 trúng, có chạy script (M1) | 2/2 trúng |
+| 002 | baseline | 2/2 trúng index; `ADD COLUMN` Medium (không tính là sai) | 2/2 trúng index; **2/2 xếp `ADD COLUMN` ở mức High** |
+| 002 | có skill | 2/2 trúng; `ADD COLUMN` Low hoặc "giữ nguyên" | 2/2 trúng; **1/2 vẫn xếp High** |
+| 003 | baseline | 2/2 "Đạt" | 2/2 "Đạt", kèm gợi ý không chặn |
+| 003 | có skill | 2/2 "Deploy được" | 2/2 "Deploy được" |
+
+Tổng: trúng 16/16 ở mọi cấu hình. Báo sai: baseline Haiku 2, có skill Haiku 1, Sonnet 0. Ca đối chứng không bị chặn nhầm lần nào (0/8).
+
+**Đọc kết quả.**
+- Lại giống authz: lỗi migration kinh điển (rename khi rolling, index không CONCURRENTLY) thì **model đã tự bắt được**, kể cả Haiku không có skill. Skill không làm tăng tỷ lệ bắt lỗi.
+- Skill giúp Sonnet đánh giá đúng mức `ADD COLUMN ... DEFAULT` (Low, "giữ nguyên"). Với Haiku thì chỉ giảm được một nửa lỗi thổi phồng mức độ.
+- Giá trị chắc chắn nhất là **`check_migration.py`**: kết quả xác định, không phụ thuộc model, đã bắt đúng 2/2 ca có lỗi và không báo sai ở ca đối chứng. Dùng tốt nhất như một bước trong CI hoặc pre-commit.
+
 ## test-integrity
 
 | Ca | Loại | Luật | Đã chạy |
