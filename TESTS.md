@@ -17,6 +17,19 @@ Cách chạy và chấm: `DEVELOP.md`, mục "Test".
 | `case-006-nested-org` — guard kiểm membership `:orgId`, `getOne` không ràng buộc `orgId` | positive | A1 | ✅ 2026-10-26 |
 | `case-007-repo` — repo 11 file; lỗi xuyên file: `findForPdf` thiếu `orgId` + helper `if (resource.orgId && …)` fail-open | positive | A1 | ✅ 2026-10-26 |
 
+### Vòng 5 — 2026-10-26, chạy lại ca 001 và 002 với skill v0.1.2 (sonnet)
+
+Mục đích: kiểm chứng việc sửa câu chữ A2 ở v0.1.2 không làm hỏng hai ca cũ. Baseline không chạy lại vì prompt không đổi.
+
+| Ca | Lần | Trúng | Báo sai | Ghi chú A2 ("chưa kiểm chứng") | Token |
+| --- | --- | --- | --- | --- | --- |
+| 001 | 1 | 1 | 0 | có (`list`) | ~68k |
+| 001 | 2 | 1 | 0 | có (`list`) | ~68k |
+| 002 | 1 | — | 0 | có | ~68k |
+| 002 | 2 | — | 0 | có | ~68k |
+
+Kết luận: v0.1.2 giữ nguyên kết quả của ca 001 và 002, không có gì tệ đi. Như vậy cả 7 ca đã được chạy với v0.1.2.
+
 ### Vòng 4 — 2026-10-26, skill v0.1.2, ca repo nhiều file, Sonnet và Haiku
 
 - Agent nhận đường dẫn tới bản copy của `case-007-repo/src`, nằm ở thư mục riêng không có `Expected`.
