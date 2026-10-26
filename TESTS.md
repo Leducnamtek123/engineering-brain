@@ -138,23 +138,26 @@ Tổng: trúng 16/16 ở mọi cấu hình. Báo sai: baseline Haiku 2, có skil
 - Skill giúp Sonnet đánh giá đúng mức `ADD COLUMN ... DEFAULT` (Low, "giữ nguyên"). Với Haiku thì chỉ giảm được một nửa lỗi thổi phồng mức độ.
 - Giá trị chắc chắn nhất là **`check_migration.py`**: kết quả xác định, không phụ thuộc model, đã bắt đúng 2/2 ca có lỗi và không báo sai ở ca đối chứng. Dùng tốt nhất như một bước trong CI hoặc pre-commit.
 
-### Dự án thật: 2026-10-27, `run_eval.py --safe-mode`, mỗi ô 3 lượt
+### Dự án thật: 2026-10-27, `run_eval.py`, mỗi ô 3 lượt (72 lượt, khoảng $6)
 
 Một monorepo Next.js + i18next thật, đang chuyển MUI sang Shadcn (tên giấu; ca và bản copy để ngoài git).
-Task là ticket UI thật: thêm khối "Liên hệ trực tiếp" (hotline, email, nút, nhãn) vào một trang còn viết hoàn toàn bằng MUI.
-Chấm bằng ratchet với config của dự án; thêm `I18N-DEFAULT` sau khi thấy agent dùng `t('key', 'chuỗi tiếng Việt')`
-(khoảng 1000/4832 lời gọi `t(` có sẵn trong repo đã viết kiểu này).
+Task là ticket UI thật: thêm khối "Liên hệ trực tiếp" (hotline, email, nút, nhãn) vào một trang còn viết toàn bằng MUI.
+Chấm bằng ratchet với config dự án. Mỗi đợt sửa một biến số, nên kết quả đổi theo đợt:
 
-| Lượt | Thêm MUI (dòng mới) | Chuỗi tiếng Việt làm mặc định | Key có trong locale `en` |
-| --- | --- | --- | --- |
-| Baseline, 12 lượt (2 đợt) | **11/12** lượt (5–13 dòng mỗi lượt) | 10/12 | 0/11 lượt dùng key |
-| Có skill, đợt 1 (config mẫu của skill) | **0/6** | 6/6 | 0/6 |
-| Có skill, đợt 2 (config dự án nằm trong repo) | **0/6** | **0/6** | **1/6** |
+| Đợt | Điều kiện | Baseline sạch | Có skill sạch | Ghi chú |
+| --- | --- | --- | --- | --- |
+| 1 | đề "Only touch files in that folder", config mẫu | 0/6 | 6/6 | baseline thêm MUI 6/6; cả hai nhánh dùng `t('key', 'chuỗi tiếng Việt')` |
+| 2 | + config dự án trong repo (cấm chuỗi mặc định) | 1/6 | 6/6 | skill "qua" bằng cách xóa chuỗi, 5/6 lượt **không thêm key**: giao diện sẽ hiện tên key |
+| 3 | + kiểm `I18N-KEY` (key phải có trong locale vi và en) | 0/6 | 1/6 | 5/6 lượt skill báo đúng là thiếu key và hỏi xin sửa locale: đề bị hiểu là chỉ được sửa thư mục của trang |
+| 4 | đề "được sửa mọi file trong repo (kể cả file locale)" | 5/6 | 6/6 | đề gợi ý đáp án, bỏ |
+| 5 | đề trung tính "được sửa mọi file trong repo" | 4/6 (Haiku 1/3) | 6/6 | 2 lượt Haiku baseline vẫn dùng MUI |
+| 6 | như 5 + nạp CLAUDE.md của dự án như phiên thật | **6/6** | **6/6** | không còn khác biệt |
 
-- **MUI: skill giải quyết được trên code thật**, giống kết quả ở repo mẫu (2/8 lên 8/8).
-- **i18n: chưa giải quyết.** Khi config cấm chuỗi mặc định, 5/6 lượt chỉ xóa chuỗi mà không thêm key vào locale, nên giao diện sẽ hiện tên key. Agent làm vừa lòng bộ kiểm tra chứ không làm đúng việc. Ratchet theo regex không thấy được key thiếu.
-- Việc cần làm: một bộ kiểm tra "mọi key `t()` mới đều có trong locale vi và en" (đọc file JSON, không dùng regex), rồi đo lại.
-- Chi phí: khoảng $0.95 cho 12 lượt mỗi đợt.
+**Kết luận trung thực:**
+- Ở điều kiện giống thật nhất (đợt 6), baseline đã làm đúng: **skill không thêm giá trị cho task gọn này**. Con số "MUI 11/12 lên 0/12" của đợt 1–2 phần lớn do cách viết đề (phạm vi hẹp làm agent không đọc AGENTS.md ở gốc).
+- Nhưng soát lịch sử thật của chính repo đó (118 commit, chỉ đọc): commit có trailer AI vẫn thêm dòng vi phạm ở 33/81 commit, kể cả tạo **component mới** bằng MUI. Nỗi đau có thật, chỉ là task một file gọn không tái hiện được. Ca cần làm tiếp: task dài nhiều file, sửa ngay trong khối MUI có sẵn, hoặc phiên dài nhiều task.
+- **Thứ có giá trị chắc chắn là ratchet làm cổng CI:** `I18N-KEY` (mới, đọc JSON locale) bắt được key thiếu mà regex không thấy, và bắt được một key thiếu thật trong code đang sửa dở của dự án. Không phụ thuộc agent có đọc skill hay không.
+- Bài học cho eval: sửa một biến số mỗi đợt; đề không được gợi ý đáp án; `--safe-mode` bỏ cả CLAUDE.md của dự án nên runner giờ nạp lại cho cả hai nhánh.
 
 ## test-integrity
 

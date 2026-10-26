@@ -5,7 +5,10 @@
     python check_new_code.py --self-test
 
 Code cũ vi phạm thì để yên; chỉ chặn vi phạm mới. Tính cả file mới chưa được git add.
-Cấu hình: {"building_blocks": [{"path", "note"}], "rules": [{"id", "paths", "pattern", "unless"?, "message"}]}.
+Cấu hình: {"building_blocks": [{"path", "note"}], "rules": [{"id", "paths", "pattern", "unless"?, "message"}],
+"i18n"?: {"paths", "locales": [thư mục mỗi ngôn ngữ chứa <namespace>.json], "default_ns"}}.
+Có "i18n" thì mọi key t('...') trong dòng mới phải có trong MỌI thư mục locale (luật I18N-KEY): regex không
+thấy được key thiếu, nên chặn được kiểu "xóa chuỗi hardcode nhưng quên thêm key".
 Có vi phạm thì thoát mã 1.
 """
 import argparse
@@ -69,6 +72,54 @@ def check(lines, rules):
     return found
 
 
+T_CALL = re.compile(r"\bt\(\s*['\"]([^'\"`$]+)['\"]")
+USE_NS = re.compile(r"useTranslation\(\s*\[?\s*['\"]([\w.-]+)['\"]")
+PLURALS = ("_one", "_other", "_zero", "_few", "_many", "_two")
+
+
+def has_key(data, key):
+    if key in data:  # key phẳng có dấu chấm
+        return True
+    for part in key.split("."):
+        if not isinstance(data, dict) or part not in data:
+            return False
+        data = data[part]
+    return True
+
+
+def check_i18n(lines, cfg, repo):
+    """Key t('...') trong dòng mới phải có ở mọi locale. Trả cùng dạng với check()."""
+    paths = [glob_to_regex(g) for g in cfg["paths"]]
+    cache, ns_of, found = {}, {}, []
+
+    def load(locale, ns):
+        f = Path(repo) / locale / f"{ns}.json"
+        if (locale, ns) not in cache:
+            try:
+                cache[locale, ns] = json.loads(f.read_text(encoding="utf-8"))
+            except (OSError, ValueError):
+                cache[locale, ns] = None
+        return cache[locale, ns]
+
+    for path, line_no, text in lines:
+        if not any(p.match(path) for p in paths):
+            continue
+        if path not in ns_of:
+            try:
+                m = USE_NS.search((Path(repo) / path).read_text(encoding="utf-8"))
+            except (OSError, UnicodeDecodeError):
+                m = None
+            ns_of[path] = m.group(1) if m else cfg.get("default_ns", "translation")
+        for key in T_CALL.findall(text):
+            ns, _, k = key.rpartition(":") if ":" in key else (ns_of[path], "", key)
+            missing = [loc for loc in cfg["locales"]
+                       if not any(has_key(load(loc, ns) or {}, k + s) for s in ("",) + PLURALS)]
+            if missing:
+                found.append((path, line_no, "I18N-KEY", f"key '{key}' (namespace {ns}) chưa có trong: "
+                              + ", ".join(missing), text.strip()))
+    return found
+
+
 def collect(repo, base):
     git = ["git", "-C", repo]
     diff = subprocess.run(git + ["diff", "--no-color", "--unified=0", base], capture_output=True,
@@ -97,7 +148,10 @@ def main():
         for b in config.get("building_blocks", []):
             print(f"{b['path']}: {b['note']}")
         return 0
-    found = check(collect(args.repo, args.base), compile_rules(config))
+    lines = collect(args.repo, args.base)
+    found = check(lines, compile_rules(config))
+    if config.get("i18n"):
+        found += check_i18n(lines, config["i18n"], args.repo)
     for path, line_no, rule_id, message, text in found:
         print(f"WARN {path}:{line_no} [{rule_id}] {message}\n     {text[:160]}")
     print(f"{len(found)} vi phạm trong dòng mới")
@@ -118,6 +172,18 @@ def self_test():
     )
     found = check(list(added_lines(diff)), rules)
     assert [(f[0], f[1], f[2]) for f in found] == [("src/a/B.tsx", 4, "NO-MUI"), ("api/x/views.py", 11, "ON-COMMIT")], found
+    import tempfile
+    with tempfile.TemporaryDirectory() as repo:
+        for loc, data in (("vi", {"a": {"b": "x"}, "n_one": "1"}), ("en", {"a": {"b": "x"}})):
+            (Path(repo) / "loc" / loc).mkdir(parents=True)
+            (Path(repo) / "loc" / loc / "emp.json").write_text(json.dumps({**data, "n_other": "x"}), encoding="utf-8")
+        (Path(repo) / "src").mkdir()
+        (Path(repo) / "src" / "P.tsx").write_text("const { t } = useTranslation('emp');\n", encoding="utf-8")
+        lines = [("src/P.tsx", 2, "{t('a.b')} {t('n')} {t(`x.${y}`)}"), ("src/P.tsx", 3, "{t('a.c', 'mặc định')}"),
+                 ("src/P.tsx", 4, "{t('emp:a.b')} {t('other:a.b')}")]
+        got = check_i18n(lines, {"paths": ["src/**/*.tsx"], "locales": ["loc/vi", "loc/en"]}, repo)
+        assert [(f[1], f[2]) for f in got] == [(3, "I18N-KEY"), (4, "I18N-KEY")], got
+        assert "loc/vi, loc/en" in got[0][3] and "other" in got[1][3], got
     assert glob_to_regex("src/**/*.tsx").match("src/B.tsx") and not glob_to_regex("src/**/*.tsx").match("lib/B.tsx")
     print("self-test OK")
 

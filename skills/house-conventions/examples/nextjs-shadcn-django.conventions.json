@@ -55,8 +55,8 @@
         "frontend/src/**/*.tsx"
       ],
       "pattern": "[ăâđêôơưàáảãạằắẳẵặầấẩẫậèéẻẽẹềếểễệìíỉĩịòóỏõọồốổỗộờớởỡợùúủũụừứửữựỳýỷỹỵĐ]",
-      "unless": "^\\s*(//|\\*|/\\*|\\{/\\*)|\\bt\\(",
-      "message": "không hardcode chuỗi tiếng Việt trong component; dùng t('...') và thêm key vào locales vi + en"
+      "unless": "^\\s*(//|\\*|/\\*|\\{/\\*)|\\bt\\(\\s*['\"][^'\"]+['\"]\\s*\\)",
+      "message": "không hardcode chuỗi tiếng Việt, kể cả làm giá trị mặc định của t(); dùng t('...') và thêm key vào locales vi + en"
     },
     {
       "id": "NO-EMDASH",
@@ -94,5 +94,16 @@
       "pattern": "\\.objects\\.(create|bulk_create|update_or_create|get_or_create)\\(|\\.save\\(|\\.delete\\(\\)",
       "message": "view phải mỏng; đưa ghi dữ liệu vào apps/*/services"
     }
-  ]
+  ],
+  "i18n": {
+    "paths": [
+      "frontend/src/**/*.tsx",
+      "frontend/src/**/*.ts"
+    ],
+    "locales": [
+      "frontend/src/locales/vi",
+      "frontend/src/locales/en"
+    ],
+    "default_ns": "common"
+  }
 }

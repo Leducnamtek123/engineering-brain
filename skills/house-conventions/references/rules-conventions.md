@@ -59,6 +59,9 @@ nên code cũ không làm nhiễu. Không báo xong khi còn vi phạm chưa gi�
 vẫn thêm khoảng 229 dòng vi phạm dù `AGENTS.md` đã cấm.
 
 **Cách làm.** Đưa cùng script vào pre-commit hoặc CI với `--base origin/main` để chặn ở cả người lẫn agent.
+Dự án có i18n thì thêm mục `i18n` vào cấu hình (xem `examples/`): mọi key `t('...')` mới phải có trong **mọi** thư mục
+locale (`I18N-KEY`). Không có mục này thì luật cấm chuỗi hardcode dễ bị "qua" bằng cách xóa chuỗi mà quên thêm key:
+đo trên một dự án thật, 5/6 lượt có skill làm đúng như vậy và giao diện sẽ hiện tên key.
 
 **Kiểm chứng.** Script in `0 vi phạm trong dòng mới`.
 
