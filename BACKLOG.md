@@ -10,7 +10,8 @@
 - test-integrity: ca khó hơn, nơi agent không giải hợp lệ được (kiểu LiveCodeBench), để đo tỷ lệ gian lận thật.
 - house-conventions: chỉ mục building block tự sinh nếu `--blocks` (liệt kê thư mục) không đủ.
 - Thêm index tìm kiếm (basic-memory) khi grep `lessons/` không còn đủ.
-- Đối chiếu `docs/pain-research.md` với kết quả từ `docs/research-prompt.md` (GPT deep research), chọn skill tiếp theo theo 3 tiêu chí trong `lessons/2026-10-26-skill-value-pattern.md`.
+- Lộ trình skill theo vai trò (BA, QA, pentest, DevOps, lead…): xem `docs/pain-catalog.md`. Mỗi skill bắt đầu bằng đo baseline; baseline đã đạt thì không làm.
+- Đối chiếu `docs/pain-catalog.md` với kết quả GPT deep research (`docs/research-prompt.md`).
 
 ## Đã xong (2026-10-26)
 - backend-authz-review: A1, A2, 7 ca, 5 vòng (46 lượt). Baseline đã bắt được hết IDOR; skill giảm báo sai trên Haiku.
