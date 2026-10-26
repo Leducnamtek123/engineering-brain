@@ -9,6 +9,7 @@ Ghi chú cho người sửa skill. Người dùng skill đọc `README.md`.
 ├── plugin.json            khai báo plugin "brain"
 └── marketplace.json       marketplace "engineering-brain", cài được cả local lẫn GitHub
 AGENTS.md                  lối vào cho mọi agent (CLAUDE.md chỉ import file này)
+commands/gripe.md          → /brain:gripe, ghi nỗi khó chịu vào ~/.brain/gripes.md
 skills/
 └── backend-authz-review/  → /brain:backend-authz-review
     ├── SKILL.md           bộ định tuyến: phạm vi, các bước, bảng "Mở khi", mẫu báo
@@ -60,9 +61,16 @@ skill sang agent khác là chạy được.
 Mỗi ca trong `tests/<skill>/` của repo lab có `kind: positive` (có lỗi phải bắt) hoặc `kind: negative`
 (code đúng, không được báo). Phải có cả hai loại, không thì không đo được báo sai.
 
-1. **Baseline:** chạy ca khi **chưa có** skill. Prompt giống hệt nhau giữa các lần.
-2. **Có skill:** chạy lại y hệt khi có skill.
-3. Chấm theo `Expected`: trúng, bỏ sót, báo sai. Người chấm không phải agent vừa làm bài.
+Chạy bằng `scripts/run_eval.py` ở repo lab (đọc docstring để biết định dạng ca và dòng `grade:`):
+
+```bash
+cd ../engineering-brain-lab
+python scripts/run_eval.py <skill> --models haiku,sonnet --runs 3
+```
+
+1. **Baseline** và **có skill** chạy cùng prompt, cùng `--safe-mode` (không nạp CLAUDE.md, skill, plugin của máy).
+   Nhánh skill nạp SKILL.md qua system prompt, nên đo nội dung skill, chưa đo agent có tự gọi skill không.
+2. Ca có `grade:` được máy chấm. Ca không có thì đọc `*.reply.md` và chấm theo `Expected`. Người chấm không phải agent vừa làm bài.
 4. Ghi vào bảng trong `TESTS.md`, kèm agent, model, ngày. Mỗi cấu hình ít nhất 2 lần.
 5. Đổi model hay agent thì chạy lại hết.
 

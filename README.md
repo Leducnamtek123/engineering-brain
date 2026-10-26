@@ -13,6 +13,12 @@ Gemini CLI, Cursor, và vẫn còn nguyên khi đổi model.
 | `safe-migration` | `/brain:safe-migration` | Migration Prisma/Postgres an toàn khi rolling deploy; script soát SQL | Baseline đã bắt được hết; giảm báo sai trên Haiku; script kiểm đúng 3/3 ca |
 | `backend-authz-review` | `/brain:backend-authz-review` | Soát endpoint thiếu kiểm tra quyền sở hữu (IDOR) | Baseline đã bắt được hết; giảm báo sai trên Haiku |
 
+## Lệnh
+
+| Lệnh | Làm gì |
+| --- | --- |
+| `/brain:gripe <điều làm bạn khó chịu>` | Ghi một dòng vào `~/.brain/gripes.md` (ngày, dự án, model, AI đã làm gì, loại). Đây là nguồn chọn skill tiếp theo: chỉ làm skill cho nỗi khó chịu lặp lại thật, không đoán. |
+
 Tất cả luật đang ở trạng thái `draft`: chưa có người chuyên môn duyệt.
 
 Script dùng độc lập được (không cần agent), hợp để đưa vào pre-commit hoặc CI:
