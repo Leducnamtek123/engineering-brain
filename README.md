@@ -15,7 +15,7 @@ Gemini CLI, Cursor, và vẫn còn nguyên khi đổi model.
 Claude Code:
 
 ```bash
-/plugin marketplace add <owner>/engineering-brain
+/plugin marketplace add Leducnamtek123/engineering-brain
 /plugin install brain@engineering-brain
 ```
 
