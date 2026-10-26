@@ -4,6 +4,7 @@ Lối vào cho mọi coding agent. Giữ file này ngắn: chi tiết nằm tron
 
 ## Khi nhận task
 - Tìm skill phù hợp trong `skills/*/SKILL.md`. Có thì làm theo bảng "Mở khi" của nó.
+- Tìm bài học liên quan: `grep -ril "<từ khoá của task>" lessons/` (theo `tags`, tên thư viện, tên module). Bài học là ghi chép thô chưa duyệt: dùng để cảnh giác, không coi là luật.
 - Luật `draft` vẫn dùng được nhưng phải ghi rõ "(luật draft)".
 
 ## Khi xong task (bước compound)
