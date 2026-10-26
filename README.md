@@ -8,7 +8,7 @@ Gemini CLI, Cursor, và vẫn còn nguyên khi đổi model.
 
 | Skill | Gọi bằng | Làm gì | Kết quả đo (chi tiết: `TESTS.md`) |
 | --- | --- | --- | --- |
-| `house-conventions` | `/brain:house-conventions` | Code mới theo quy ước đích của dự án, không chép code cũ bên cạnh; ratchet chỉ soát dòng mới | **Baseline đạt 2/8, có skill đạt 8/8** |
+| `house-conventions` | `/brain:house-conventions` | Code mới theo quy ước đích của dự án, không chép code cũ bên cạnh; ratchet chỉ soát dòng mới | **Repo mẫu: baseline 2/8, có skill 8/8.** Dự án thật, task gọn, có CLAUDE.md: baseline đã đạt 6/6. Giá trị chắc nhất là ratchet làm cổng CI (kể cả kiểm key i18n) |
 | `test-integrity` | `/brain:test-integrity` | Không sửa, skip, hardcode test để cho pass; test sai thì dừng và báo | Không ai gian lận ở ca rõ ràng (0/24); skill đổi mặc định sang theo spec |
 | `safe-migration` | `/brain:safe-migration` | Migration Prisma/Postgres an toàn khi rolling deploy; script soát SQL | Baseline đã bắt được hết; giảm báo sai trên Haiku; script kiểm đúng 3/3 ca |
 | `backend-authz-review` | `/brain:backend-authz-review` | Soát endpoint thiếu kiểm tra quyền sở hữu (IDOR) | Baseline đã bắt được hết; giảm báo sai trên Haiku |
