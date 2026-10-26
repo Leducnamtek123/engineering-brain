@@ -1,9 +1,8 @@
 # Backlog
 
 ## Bây giờ
-- **Đưa house-conventions vào square-tuyen-dung**: thêm `check_new_code.py` + `square.conventions.json` vào pre-commit hoặc CI (`--base origin/main`). Cần người của dự án đồng ý vì đụng repo công ty.
-- Dùng house-conventions trên task thật ở Square 2–4 tuần, ghi `lessons/`, đo số commit "refactor/sửa lại quy ước" trước và sau (mốc: 30 commit gần nhất thêm khoảng 229 dòng vi phạm).
-- Mở rộng `square.conventions.json` khi gặp lỗi lặp lại mới (mỗi luật mới cần một ca test).
+- square-tuyen-dung chỉ dùng làm **dữ liệu để thử**: repo này không đẩy code sang đó. Chủ dự án tự áp dụng khi muốn (copy `check_new_code.py` + một file `conventions.json` vào repo đích).
+- Viết hướng dẫn ngắn "áp dụng house-conventions cho repo của bạn": cách viết `conventions.json` từ AGENTS.md có sẵn, cách chạy thử trên N commit gần nhất để lấy mốc.
 - Chọn license (đang để `TODO` trong `plugin.json`, chưa có file `LICENSE`).
 - Nhờ người có chuyên môn duyệt luật để lên `reviewed`: A1, A2 (bảo mật), M1–M4 (DB), H1–H3 (lead của Square).
 

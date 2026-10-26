@@ -18,5 +18,5 @@ Skill có giá trị lớn khi thỏa **cả ba**:
 Thiếu cả ba thì skill chủ yếu chỉ giúp model nhỏ đỡ báo sai.
 
 ## Đề xuất nâng cấp (người duyệt quyết định mỗi tuần)
-- [ ] Đưa `check_new_code.py` + `square.conventions.json` vào pre-commit hoặc CI của square-tuyen-dung (`--base origin/main`). Cần người của dự án đồng ý.
+- [ ] Viết hướng dẫn áp dụng house-conventions cho repo bất kỳ (chủ dự án tự áp dụng, repo này không đẩy code sang dự án khác).
 - [ ] Skill tiếp theo chọn theo 3 tiêu chí trên, không theo chủ đề nghe quan trọng.
