@@ -10,9 +10,36 @@ Cách chạy và chấm: `DEVELOP.md`, mục "Test".
 | Ca | Loại | Luật | Đã chạy |
 | --- | --- | --- | --- |
 | `case-001-idor` — guard có, `getOne` thiếu `ownerId` | positive | A1 | ✅ 2026-10-26 |
-| `case-002-safe` — truy vấn đã lọc `ownerId`, endpoint công khai | negative | A1 | ✅ 2026-10-26 |
+| `case-002-safe` — truy vấn đã lọc `ownerId`, endpoint công khai | negative | A1, A2 | ✅ 2026-10-26 |
+| `case-003-undefined-owner` — strategy trả `sub`, `getOne` đọc `.id`, `list` đọc `.sub` | positive | A1, A2 | ✅ 2026-10-26 |
 
-### Kết quả 2026-10-26
+### Vòng 2 — 2026-10-26, skill v0.1.1 → v0.1.2 (thêm A2)
+
+Cách chạy và người chấm giống vòng 1. Baseline ca 001 và 002 dùng lại kết quả vòng 1, vì prompt không đổi và baseline không phụ thuộc skill.
+
+"Ghi chú A2" nghĩa là agent có nêu bẫy `undefined` ở mức "chưa kiểm chứng" hoặc ghi chú, không báo thành lỗi. Đây là hành vi mong muốn ở ca 002.
+
+| Ca | Cấu hình | Lần | Trúng | Báo sai | Ghi chú A2 | Ngoài phạm vi | Token |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 001 | có skill v0.1.1 | 1 | 1 | 0 | có (`list`) | 0 | ~68k |
+| 001 | có skill v0.1.1 | 2 | 1 | 0 | có (`list`) | 0 | ~68k |
+| 002 | có skill v0.1.1 | 1 | — | 0 | có | 0 | ~68k |
+| 002 | có skill v0.1.1 | 2 | — | 0 | có | 2 (ghi riêng) | ~68k |
+| 003 | baseline | 1 | 1 | 1 (High "chốt chặn" cho cả `list`) | — | 5 | ~62k |
+| 003 | baseline | 2 | 1 | 0 | — | 5 | ~62k |
+| 003 | có skill v0.1.1 | 1 | 1 | 1 (`list` Low) | — | 0 | ~68k |
+| 003 | có skill v0.1.1 | 2 | 1 | 1 (`list` Medium) | — | 1 | ~69k |
+| 003 | có skill **v0.1.2** | 1 | 1 | 0 | — | 1 dòng | ~69k |
+| 003 | có skill **v0.1.2** | 2 | 1 | 0 | — | 1 dòng | ~68k |
+
+**Đọc kết quả.**
+- Ca 003 (khó hơn): baseline cũng bắt được lỗi chính 2/2. Như vậy với Sonnet, A2 **chưa làm tăng tỷ lệ bắt lỗi**.
+- Ở ca 002, skill v0.1.1 bắt được bẫy `undefined` ở đúng mức: chỉ ghi chú, không báo thành lỗi. Trước khi có A2, hai lượt có skill ở ca này không nhắc tới bẫy.
+- A2 bản v0.1.1 viết quá rộng nên agent báo dư `list` (2/2). Bản v0.1.2 thêm bước "tên field khớp với strategy thì không báo" và hết báo sai (0/2).
+- Lưu ý: ca 001 và 002 chưa chạy lại với v0.1.2. Thay đổi chỉ thu hẹp phạm vi báo, nên dự đoán không tệ hơn, nhưng **chưa kiểm chứng**.
+- Token: có skill tốn thêm khoảng 10% so với baseline.
+
+### Vòng 1 — 2026-10-26, skill v0.1.0 (chỉ A1)
 
 Cách chạy: subagent Claude Code, model `sonnet`, mỗi lượt là một phiên mới.
 - Baseline: chỉ có prompt, không được đọc file nào.

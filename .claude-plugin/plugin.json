@@ -1,7 +1,7 @@
 {
   "name": "brain",
   "description": "Bộ skill kỹ thuật có nguồn và có test: review phân quyền backend, mở rộng dần sang FE, bảo mật, DevOps.",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "author": { "name": "Leducnamtek123" },
   "license": "TODO"
 }

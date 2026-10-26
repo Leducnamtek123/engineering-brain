@@ -15,7 +15,7 @@ Phạm vi: endpoint đọc, sửa, xoá tài nguyên theo id lấy từ request.
 
 ## Các bước
 
-1. Liệt kê mọi endpoint trong phạm vi có đọc id từ path, query hoặc body.
+1. Liệt kê mọi endpoint trong phạm vi có đọc id từ path, query hoặc body. Đọc cả code đi kèm (strategy, guard, decorator) nếu có.
 2. Mỗi endpoint, mở luật ở bảng dưới và soát theo phần **Cách làm** của luật đó.
 3. Không báo endpoint trả dữ liệu công khai, hoặc truy vấn đã ràng buộc theo chủ sở hữu lấy từ token.
 4. Báo theo mẫu ở cuối.
@@ -25,6 +25,7 @@ Phạm vi: endpoint đọc, sửa, xoá tài nguyên theo id lấy từ request.
 | Gặp | Mở |
 | --- | --- |
 | Endpoint đọc, sửa, xoá theo id | `references/rules-authz.md` mục `A1` |
+| Truy vấn lọc theo chủ sở hữu (`ownerId: req.user.id`…) | `references/rules-authz.md` mục `A2` |
 | Định đổi một luật, hoặc thấy mình đang nghĩ "guard là đủ" | `references/locked-rules.md` |
 
 Chỉ áp dụng luật có trạng thái `reviewed` hoặc `verified`. Luật `draft` thì vẫn dùng được

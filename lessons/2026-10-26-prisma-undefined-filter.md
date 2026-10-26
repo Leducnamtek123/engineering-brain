@@ -16,6 +16,9 @@ Hai lần chạy có skill không nhắc tới, vì skill chỉ dạy "lọc the
 - `Expected` cũng có thể sai: người viết ca test không nghĩ tới bẫy này.
 
 ## Đề xuất nâng cấp (người duyệt quyết định mỗi tuần)
-- [ ] Luật mới A2: id chủ sở hữu dùng để lọc phải được chứng minh khác rỗng (decorator có kiểu, hoặc chặn khi thiếu). Cần nguồn: tài liệu Prisma về `null` và `undefined`, đọc và ghi ngày kiểm trước khi viết.
-- [ ] Sửa `Expected` của ca 002: chấp nhận cảnh báo này nếu được ghi ở mức "chưa kiểm chứng" hoặc Low.
-- [ ] Ca eval mới: strategy trả `{ sub }`, controller dùng `req.user.id`.
+- [x] Luật mới A2 (2026-10-26, v0.1.1; câu chữ sửa ở v0.1.2 sau khi agent báo dư). Nguồn: Prisma docs "Null and undefined".
+- [x] Sửa `Expected` của ca 002: ghi chú ở mức "chưa kiểm chứng" thì tính là trúng, báo thành lỗi thì tính là báo sai.
+- [x] Ca mới `case-003-undefined-owner`.
+
+## Bài học thêm từ vòng 2
+Luật mới viết quá rộng làm agent báo dư ngay lập tức. Mỗi luật nên có ít nhất một ca negative hoặc một phần "MUST NOT flag" nằm sát ranh giới của luật.
