@@ -10,7 +10,7 @@ description: Giữ code mới đúng quy ước đích của dự án khi codeba
 
 ## Các bước
 
-1. Đọc tài liệu quy ước của dự án (`AGENTS.md` gốc và của thư mục con, `docs/*standards*`). Tìm file cấu hình ratchet của dự án (`conventions.json`; dự án Square dùng `examples/square.conventions.json` trong skill này).
+1. Đọc tài liệu quy ước của dự án (`AGENTS.md` gốc và của thư mục con, `docs/*standards*`). Tìm file cấu hình ratchet của dự án (`conventions.json`; chưa có thì copy một mẫu trong `examples/` của skill rồi sửa theo dự án).
 2. **Trước khi viết component, helper, service mới**: chạy `python <thư mục skill>/scripts/check_new_code.py --config <cấu hình> --blocks` và tìm trong các thư mục đó thứ đã có (luật `H2`).
 3. Viết code theo quy ước đích (luật `H1`), kể cả khi sửa ngay trong file cũ còn lệch quy ước. Không tự refactor phần code cũ không liên quan.
 4. Chạy `python <thư mục skill>/scripts/check_new_code.py --config <cấu hình> --repo <repo> --base <ref>` (luật `H3`). Sửa hết vi phạm trong dòng mới, hoặc giải thích từng cái còn lại.

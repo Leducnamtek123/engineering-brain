@@ -11,11 +11,11 @@ Nguồn duy nhất cho cách viết code mới trong codebase còn code cũ lệ
 - Nguồn: [AgentPatterns: Pattern Replication Risk](https://agentpatterns.ai/patterns/anti-patterns/pattern-replication-risk/) (kiểm 2026-10-26)
 
 **Luật.** Khi file đang sửa (hoặc file mẫu gần nhất) dùng pattern mà tài liệu dự án nói là cũ hoặc cấm, phần code **mới thêm**
-phải theo quy ước đích. Ví dụ ở dự án Square: thêm nút vào trang MUI thì dùng `Button` của Shadcn + Tailwind, chuỗi qua `t()`.
+phải theo quy ước đích. Ví dụ: codebase đang chuyển MUI sang Shadcn, thêm nút vào trang MUI thì dùng `Button` của Shadcn + Tailwind, chuỗi qua `t()`.
 
 *Vì sao:* agent học từ code nó đọc thấy và coi code cũ, code chuẩn như nhau, nên nhân bản pattern cũ ra khắp nơi.
-AgentPatterns dẫn GitClear: code copy/paste tăng từ 8.3% lên 12.3%. Ở chính dự án Square, `InterviewedCandidatesPanel`
-được thêm mới với khoảng 90 dòng vi phạm (MUI, `any`) và phải có commit refactor sửa lại ngay hôm sau.
+AgentPatterns dẫn GitClear: code copy/paste tăng từ 8.3% lên 12.3%. Ở một dự án Next.js + Django thật được dùng để thử (ẩn tên),
+một component mới được thêm với khoảng 90 dòng vi phạm (MUI, `any`) và phải có commit refactor sửa lại ngay hôm sau.
 
 **Cách làm.** Xác định quy ước đích từ tài liệu, không từ file bên cạnh. Nếu hai thứ trộn lẫn trông xấu, vẫn ưu tiên quy ước
 và ghi chú trong báo cáo; không tự chuyển cả file cũ trừ khi được giao.
@@ -55,7 +55,7 @@ và ghi chú trong báo cáo; không tự chuyển cả file cũ trừ khi đư�
 nên code cũ không làm nhiễu. Không báo xong khi còn vi phạm chưa giải thích.
 
 *Vì sao:* luật bằng chữ bị bỏ qua; kiểm bằng code thì không. AgentPatterns: lint chặn pattern cũ hiệu quả hơn lời dặn
-"hãy dùng API mới", vì lời dặn phải cạnh tranh với hàng trăm chỗ code cũ agent đọc thấy. Ở Square, 30 commit gần nhất
+"hãy dùng API mới", vì lời dặn phải cạnh tranh với hàng trăm chỗ code cũ agent đọc thấy. Ở dự án thử đó, 30 commit gần nhất
 vẫn thêm khoảng 229 dòng vi phạm dù `AGENTS.md` đã cấm.
 
 **Cách làm.** Đưa cùng script vào pre-commit hoặc CI với `--base origin/main` để chặn ở cả người lẫn agent.

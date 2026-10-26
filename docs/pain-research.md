@@ -41,7 +41,7 @@ Loại ra trước: số 5, 7, 8, 9 đã có công cụ tốt. Số 1 và 2 quá
 ### 2. `house-conventions`: quy ước riêng của dự án
 - **Vì sao**: giá trị cao nhất cho đội, và AI không thể tự biết. Đây chính là cách evon tạo khác biệt: chứa quan điểm riêng.
 - **Gồm**: một file chỉ mục các helper, wrapper, khuôn response sẵn có (tự sinh từ code); luật "tìm trước khi viết mới"; script grep các lệnh gọi lách wrapper.
-- **Cần**: đọc code của một dự án thật, ví dụ `square-tuyen-dung`.
+- **Cần**: đọc code của một dự án thật, của chính đội bạn.
 
 ### 3. `safe-migration`: migration Prisma và Postgres an toàn
 - **Vì sao**: hiếm nhưng hậu quả rất nặng. Công cụ đã có nhưng còn rời rạc.

@@ -12,15 +12,15 @@ Cách chạy và chấm: `DEVELOP.md`, mục "Test".
 
 ### Vòng 1 — 2026-10-26, skill v0.2.0, Sonnet và Haiku
 
-- Repo mẫu tự viết, cấu trúc giống `square-tuyen-dung`. **Cả hai cấu hình đều có `AGENTS.md` nêu quy ước** trong thư mục, nên baseline có đủ thông tin bằng chữ.
-- Có skill: thêm `SKILL.md`, luật H, script ratchet và cấu hình `examples/square.conventions.json`.
+- Repo mẫu tự viết, cấu trúc monorepo Next.js + Django phổ biến. **Cả hai cấu hình đều có `AGENTS.md` nêu quy ước** trong thư mục, nên baseline có đủ thông tin bằng chữ.
+- Có skill: thêm `SKILL.md`, luật H, script ratchet và cấu hình `examples/nextjs-shadcn-django.conventions.json`.
 - **Chấm hoàn toàn bằng máy**: `check_new_code.py` trên diff của từng bản copy. Ca 001 kiểm thêm key mới có trong cả locale vi lẫn en.
 
 | Ca | Cấu hình | Sonnet | Haiku |
 | --- | --- | --- | --- |
 | 001 | baseline | **0/2 đạt**: thêm `Button` MUI + `sx`, hardcode "Xuất Excel", không thêm locale (5 vi phạm/lượt) | **0/2 đạt** (4 vi phạm/lượt) |
 | 001 | có skill | **2/2 đạt**: Shadcn `Button` + `Badge`, `t()`, key ở cả vi và en | **2/2 đạt** |
-| 002 | baseline | 2/2 đạt (tự theo mẫu `close_job_post`) | **0/2 đạt**: ghi dữ liệu trong view (`SQ-THIN-VIEW`) |
+| 002 | baseline | 2/2 đạt (tự theo mẫu `close_job_post`) | **0/2 đạt**: ghi dữ liệu trong view (`THIN-VIEW`) |
 | 002 | có skill | 2/2 đạt | **2/2 đạt** |
 | 003 | baseline | 2/2 sạch | 2/2 sạch |
 | 003 | có skill | 2/2 sạch | 2/2 sạch |

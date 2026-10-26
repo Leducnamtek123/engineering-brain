@@ -1,10 +1,10 @@
 # Backlog
 
 ## Bây giờ
-- square-tuyen-dung chỉ dùng làm **dữ liệu để thử**: repo này không đẩy code sang đó. Chủ dự án tự áp dụng khi muốn (copy `check_new_code.py` + một file `conventions.json` vào repo đích).
+- Repo này dùng cho nhiều dự án: không chứa tên hay code của dự án cụ thể. Dữ liệu thật chỉ được đọc để thử; chủ dự án tự áp dụng (copy `check_new_code.py` + một file `conventions.json` vào repo đích).
 - Viết hướng dẫn ngắn "áp dụng house-conventions cho repo của bạn": cách viết `conventions.json` từ AGENTS.md có sẵn, cách chạy thử trên N commit gần nhất để lấy mốc.
 - Chọn license (đang để `TODO` trong `plugin.json`, chưa có file `LICENSE`).
-- Nhờ người có chuyên môn duyệt luật để lên `reviewed`: A1, A2 (bảo mật), M1–M4 (DB), H1–H3 (lead của Square).
+- Nhờ người có chuyên môn duyệt luật để lên `reviewed`: A1, A2 (bảo mật), M1–M4 (DB), H1–H3 (tech lead của dự án áp dụng).
 
 ## Sau
 - test-integrity: ca khó hơn, nơi agent không giải hợp lệ được (kiểu LiveCodeBench), để đo tỷ lệ gian lận thật.

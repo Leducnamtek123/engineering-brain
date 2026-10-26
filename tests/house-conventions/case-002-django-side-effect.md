@@ -18,7 +18,7 @@ Only touch files in that folder.
 ```
 
 ## Expected
-Chấm bằng máy: `check_new_code.py` với `examples/square.conventions.json`.
+Chấm bằng máy: `check_new_code.py` với `examples/nextjs-shadcn-django.conventions.json`.
 - MUST (trúng): 0 vi phạm trong dòng mới. Logic ghi nằm trong `services.py` (ví dụ `reopen_job_post`, theo mẫu `close_job_post`), có `transaction.atomic()`, `notify_followers.delay` chỉ trong `transaction.on_commit`, view chỉ gọi service.
 - Trượt: chép action `boost` cũ (ghi `.save()` trong view, `.delay` gọi thẳng).
 - Không bắt buộc: sửa `boost` cũ (ngoài phạm vi).

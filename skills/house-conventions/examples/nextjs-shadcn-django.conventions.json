@@ -1,61 +1,96 @@
 {
-  "project": "square-tuyen-dung (InfoHR)",
-  "derived_from": "AGENTS.md, frontend/AGENTS.md, docs/08-development/coding-standards.md, docs/10-ai/rules-and-constraints.md (doc 2026-10-26)",
+  "stack": "Mẫu cho monorepo Next.js (Shadcn UI, Tailwind, i18next) + Django REST Framework (service layer, Celery). Copy, đổi tên và sửa theo AGENTS.md của dự án bạn.",
   "building_blocks": [
-    {"path": "frontend/src/components/ui", "note": "Shadcn UI: Button, Card, Table, Input, Select, Badge, Skeleton, AlertDialog... dùng thay MUI"},
-    {"path": "frontend/src/types", "note": "type dùng chung, đồng bộ với serializer backend"},
-    {"path": "frontend/src/locales", "note": "chuỗi giao diện: thêm key cho cả vi và en"},
-    {"path": "api/apps/*/services", "note": "logic nghiệp vụ ghi dữ liệu"},
-    {"path": "api/apps/*/selectors", "note": "truy vấn chỉ đọc phức tạp"}
+    {
+      "path": "frontend/src/components/ui",
+      "note": "Shadcn UI: Button, Card, Table, Input, Select, Badge, Skeleton, AlertDialog... dùng thay MUI"
+    },
+    {
+      "path": "frontend/src/types",
+      "note": "type dùng chung, đồng bộ với serializer backend"
+    },
+    {
+      "path": "frontend/src/locales",
+      "note": "chuỗi giao diện: thêm key cho cả vi và en"
+    },
+    {
+      "path": "api/apps/*/services",
+      "note": "logic nghiệp vụ ghi dữ liệu"
+    },
+    {
+      "path": "api/apps/*/selectors",
+      "note": "truy vấn chỉ đọc phức tạp"
+    }
   ],
   "rules": [
     {
-      "id": "SQ-NO-MUI",
-      "paths": ["frontend/src/**/*.tsx", "frontend/src/**/*.ts"],
+      "id": "NO-MUI",
+      "paths": [
+        "frontend/src/**/*.tsx",
+        "frontend/src/**/*.ts"
+      ],
       "pattern": "from ['\"]@mui/|\\bsx=\\{|\\bstyled\\(",
       "message": "code mới không dùng MUI; dùng Shadcn (@/components/ui) + Tailwind, kể cả khi file xung quanh còn MUI"
     },
     {
-      "id": "SQ-NO-ANY",
-      "paths": ["frontend/src/**/*.tsx", "frontend/src/**/*.ts"],
+      "id": "NO-ANY",
+      "paths": [
+        "frontend/src/**/*.tsx",
+        "frontend/src/**/*.ts"
+      ],
       "pattern": ":\\s*any\\b|\\bas any\\b|<any>",
       "message": "không dùng any; dùng unknown + thu hẹp kiểu hoặc interface rõ ràng"
     },
     {
-      "id": "SQ-NO-PILL",
-      "paths": ["frontend/src/**/*.tsx"],
+      "id": "NO-PILL",
+      "paths": [
+        "frontend/src/**/*.tsx"
+      ],
       "pattern": "rounded-(full|xl|2xl|3xl)\\b",
       "message": "không bo tròn kiểu pill; dùng rounded-sm, rounded-[3px], rounded-[4px]"
     },
     {
-      "id": "SQ-I18N",
-      "paths": ["frontend/src/**/*.tsx"],
+      "id": "I18N",
+      "paths": [
+        "frontend/src/**/*.tsx"
+      ],
       "pattern": "[ăâđêôơưàáảãạằắẳẵặầấẩẫậèéẻẽẹềếểễệìíỉĩịòóỏõọồốổỗộờớởỡợùúủũụừứửữựỳýỷỹỵĐ]",
       "unless": "^\\s*(//|\\*|/\\*|\\{/\\*)|\\bt\\(",
       "message": "không hardcode chuỗi tiếng Việt trong component; dùng t('...') và thêm key vào locales vi + en"
     },
     {
-      "id": "SQ-NO-EMDASH",
-      "paths": ["frontend/src/**", "docs/**/*.md"],
+      "id": "NO-EMDASH",
+      "paths": [
+        "frontend/src/**",
+        "docs/**/*.md"
+      ],
       "pattern": "—",
       "message": "dự án cấm em dash; dùng dấu phẩy, dấu hai chấm hoặc gạch nối thường"
     },
     {
-      "id": "SQ-LAZY-HEAVY",
-      "paths": ["frontend/src/**/*.tsx", "frontend/src/**/*.ts"],
+      "id": "LAZY-HEAVY",
+      "paths": [
+        "frontend/src/**/*.tsx",
+        "frontend/src/**/*.ts"
+      ],
       "pattern": "^\\s*import .* from ['\"](chart\\.js|leaflet|@react-pdf-viewer[^'\"]*|react-draft-wysiwyg)['\"]",
       "message": "thư viện nặng phải nạp bằng next/dynamic với ssr: false"
     },
     {
-      "id": "SQ-ON-COMMIT",
-      "paths": ["api/apps/**/*.py"],
+      "id": "ON-COMMIT",
+      "paths": [
+        "api/apps/**/*.py"
+      ],
       "pattern": "\\.(delay|apply_async)\\(",
       "unless": "on_commit",
       "message": "Celery task chỉ được gọi trong transaction.on_commit(...)"
     },
     {
-      "id": "SQ-THIN-VIEW",
-      "paths": ["api/apps/**/views.py", "api/apps/**/views/*.py"],
+      "id": "THIN-VIEW",
+      "paths": [
+        "api/apps/**/views.py",
+        "api/apps/**/views/*.py"
+      ],
       "pattern": "\\.objects\\.(create|bulk_create|update_or_create|get_or_create)\\(|\\.save\\(|\\.delete\\(\\)",
       "message": "view phải mỏng; đưa ghi dữ liệu vào apps/*/services"
     }
