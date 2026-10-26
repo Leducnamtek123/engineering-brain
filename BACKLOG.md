@@ -4,7 +4,8 @@
 - ~~Chạy baseline và có skill cho 2 ca~~ (xong 2026-10-26: skill cắt hết báo sai, chưa tăng tỷ lệ bắt lỗi).
 - ~~Xử lý bài học Prisma `undefined`~~ (xong: A2, ca 003, v0.1.2).
 - Chạy lại ca 001 và 002 với v0.1.2 (chưa kiểm chứng sau lần sửa câu chữ A2).
-- Cần ca mà baseline **bỏ sót**, để đo skill có tăng tỷ lệ bắt lỗi không. Gợi ý: kiểm tra quyền nằm ở service, update hay delete theo id, id lồng nhau (`/orgs/:orgId/invoices/:id`), hoặc chạy bằng model nhỏ hơn (haiku).
+- ~~Ca khó: service, update/delete, orgId lồng; chạy sonnet + haiku~~ (xong vòng 3: 24/24 trúng ở mọi cấu hình, nên vẫn chưa đo được tỷ lệ bắt lỗi; skill cắt báo sai của haiku 3 → 0).
+- Cần ca mà baseline **bỏ sót**: input giống repo thật (5–10 file, có code nhiễu, lỗi ở file khác nơi bắt đầu đọc), hoặc cho agent review cả một thư mục thay vì một đoạn dán. Lấy từ dự án thật nếu được (đã xoá dữ liệu nhạy cảm).
 - Thêm 8–18 ca nữa từ dự án thật (đã xoá dữ liệu nhạy cảm), có cả ca negative.
 - Nhờ người có chuyên môn bảo mật duyệt `A1` để lên `reviewed`.
 

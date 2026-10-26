@@ -12,6 +12,43 @@ Cách chạy và chấm: `DEVELOP.md`, mục "Test".
 | `case-001-idor` — guard có, `getOne` thiếu `ownerId` | positive | A1 | ✅ 2026-10-26 |
 | `case-002-safe` — truy vấn đã lọc `ownerId`, endpoint công khai | negative | A1, A2 | ✅ 2026-10-26 |
 | `case-003-undefined-owner` — strategy trả `sub`, `getOne` đọc `.id`, `list` đọc `.sub` | positive | A1, A2 | ✅ 2026-10-26 |
+| `case-004-service-layer` — GET kiểm quyền ở service, PATCH thì không | positive | A1 | ✅ 2026-10-26 |
+| `case-005-update-then-read` — `updateMany` có lọc owner, nhưng trả `findUnique` không lọc | positive | A1 | ✅ 2026-10-26 |
+| `case-006-nested-org` — guard kiểm membership `:orgId`, `getOne` không ràng buộc `orgId` | positive | A1 | ✅ 2026-10-26 |
+
+### Vòng 3 — 2026-10-26, skill v0.1.2, 3 ca khó, Sonnet và Haiku
+
+Mỗi ô dưới đây là 2 lần chạy cộng lại, 24 lượt tổng cộng.
+- Baseline: chỉ đọc file input.
+- Có skill: đọc thêm đúng một file gồm `SKILL.md` và `references/`.
+- Người chấm là phiên chính (`opus`), cũng là người viết `Expected`.
+- "Ngoài phạm vi" được đếm ước lượng: các mục không phải phân quyền như mass assignment khi chưa thấy DTO, kiểm tra user active trong `validate()`, phân trang, validate enum, `ParseUUIDPipe`.
+
+| Model | Cấu hình | Ca | Trúng | Báo sai | Ngoài phạm vi | Token/lượt |
+| --- | --- | --- | --- | --- | --- | --- |
+| sonnet | baseline | 004 | 2/2 | 0 | ~8 | ~65k |
+| sonnet | baseline | 005 | 2/2 | 0 | ~6 | ~65k |
+| sonnet | baseline | 006 | 2/2 | 0 | ~6 | ~65k |
+| sonnet | có skill | 004 | 2/2 | 0 | 2 dòng ghi riêng | ~68k |
+| sonnet | có skill | 005 | 2/2 | 0 | ~4 dòng ghi riêng | ~68k |
+| sonnet | có skill | 006 | 2/2 | 0 | 2 dòng ghi riêng | ~69k |
+| haiku | baseline | 004 | 2/2 | 1 (`findForUser` "fail-open khi sub rỗng", Medium) | ~7 | ~67k |
+| haiku | baseline | 005 | 2/2 | 2 (`undefined` High trên `setStatus`; `remove` TOCTOU ở mức Medium) | ~7 | ~68k |
+| haiku | baseline | 006 | 2/2 | 0 | ~8 | ~67k |
+| haiku | có skill | 004 | 2/2 | 0 | 2 dòng ghi riêng | ~69k |
+| haiku | có skill | 005 | 2/2 | 0 (`remove` Low: chấp nhận theo `Expected`) | 2 dòng ghi riêng | ~71k |
+| haiku | có skill | 006 | 2/2 | 0 | 2 (1 Low "200 thay vì 404", không phải phân quyền) | ~71k |
+
+Tổng:
+- Trúng: 24/24 lượt. **Không cấu hình nào bỏ sót.**
+- Báo sai: baseline Haiku 3, các cấu hình khác 0.
+- Có skill tốn thêm khoảng 5% token.
+
+**Đọc kết quả.**
+- Ba ca "khó" vẫn chưa đủ khó. Ngay cả Haiku không có skill cũng bắt được cả 3 lỗi, 6/6. Như vậy **chưa đo được skill có làm tăng tỷ lệ bắt lỗi hay không**.
+- Lợi ích nhất quán qua cả 3 vòng là **báo sai về 0** và **báo cáo gọn, đúng phạm vi**. Với Haiku, skill cắt 3 báo sai.
+- Hai báo sai của baseline Haiku đúng là loại mà bước 3 của A2 chặn được (strategy trả `id`, controller đọc `.id`). A2 bản v0.1.2 có tác dụng thật trên model nhỏ.
+- Các lỗi ở đây đều nằm gọn trong 30–40 dòng, ngay trước mắt agent. Muốn đo tỷ lệ bắt lỗi thì cần input giống thực tế hơn: nhiều file, có code nhiễu, lỗi nằm ở file khác với nơi agent bắt đầu đọc.
 
 ### Vòng 2 — 2026-10-26, skill v0.1.1 → v0.1.2 (thêm A2)
 
