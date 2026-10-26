@@ -1,7 +1,8 @@
 # Backlog
 
 ## Bây giờ
-- Chạy baseline và có skill cho 2 ca của `backend-authz-review`, ghi `TESTS.md`.
+- ~~Chạy baseline và có skill cho 2 ca~~ (xong 2026-10-26: skill cắt hết báo sai, chưa tăng tỷ lệ bắt lỗi).
+- Xử lý `lessons/2026-10-26-prisma-undefined-filter.md`: luật A2, sửa `Expected` ca 002, thêm ca mới.
 - Thêm 8–18 ca nữa từ dự án thật (đã xoá dữ liệu nhạy cảm), có cả ca negative.
 - Nhờ người có chuyên môn bảo mật duyệt `A1` để lên `reviewed`.
 
