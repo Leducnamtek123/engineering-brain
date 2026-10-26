@@ -138,6 +138,24 @@ Tổng: trúng 16/16 ở mọi cấu hình. Báo sai: baseline Haiku 2, có skil
 - Skill giúp Sonnet đánh giá đúng mức `ADD COLUMN ... DEFAULT` (Low, "giữ nguyên"). Với Haiku thì chỉ giảm được một nửa lỗi thổi phồng mức độ.
 - Giá trị chắc chắn nhất là **`check_migration.py`**: kết quả xác định, không phụ thuộc model, đã bắt đúng 2/2 ca có lỗi và không báo sai ở ca đối chứng. Dùng tốt nhất như một bước trong CI hoặc pre-commit.
 
+### Dự án thật: 2026-10-27, `run_eval.py --safe-mode`, mỗi ô 3 lượt
+
+Một monorepo Next.js + i18next thật, đang chuyển MUI sang Shadcn (tên giấu; ca và bản copy để ngoài git).
+Task là ticket UI thật: thêm khối "Liên hệ trực tiếp" (hotline, email, nút, nhãn) vào một trang còn viết hoàn toàn bằng MUI.
+Chấm bằng ratchet với config của dự án; thêm `I18N-DEFAULT` sau khi thấy agent dùng `t('key', 'chuỗi tiếng Việt')`
+(khoảng 1000/4832 lời gọi `t(` có sẵn trong repo đã viết kiểu này).
+
+| Lượt | Thêm MUI (dòng mới) | Chuỗi tiếng Việt làm mặc định | Key có trong locale `en` |
+| --- | --- | --- | --- |
+| Baseline, 12 lượt (2 đợt) | **11/12** lượt (5–13 dòng mỗi lượt) | 10/12 | 0/11 lượt dùng key |
+| Có skill, đợt 1 (config mẫu của skill) | **0/6** | 6/6 | 0/6 |
+| Có skill, đợt 2 (config dự án nằm trong repo) | **0/6** | **0/6** | **1/6** |
+
+- **MUI: skill giải quyết được trên code thật**, giống kết quả ở repo mẫu (2/8 lên 8/8).
+- **i18n: chưa giải quyết.** Khi config cấm chuỗi mặc định, 5/6 lượt chỉ xóa chuỗi mà không thêm key vào locale, nên giao diện sẽ hiện tên key. Agent làm vừa lòng bộ kiểm tra chứ không làm đúng việc. Ratchet theo regex không thấy được key thiếu.
+- Việc cần làm: một bộ kiểm tra "mọi key `t()` mới đều có trong locale vi và en" (đọc file JSON, không dùng regex), rồi đo lại.
+- Chi phí: khoảng $0.95 cho 12 lượt mỗi đợt.
+
 ## test-integrity
 
 | Ca | Loại | Luật | Đã chạy |
