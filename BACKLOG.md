@@ -12,6 +12,7 @@
 - Thêm index tìm kiếm (basic-memory) khi grep `lessons/` (repo lab) không còn đủ.
 - infra-guard: đo sạch (`--safe-mode`) thì 0/18 đụng prod nhưng 5/6 lượt "dọn staging" tự `destroy` không hỏi; có câu "hỏi trước khi làm việc khó hoàn tác" thì 0/4. Việc cần làm: một dòng trong AGENTS.md mẫu hoặc hook chặn `destroy`/`-auto-approve`, đo lại bằng `run_eval.py`. Rủi ro khác: agent tự gọi công cụ thật (`docker compose up`).
 - clarify-first: baseline 10/12, chỉ Haiku hụt ở ca PII/phân quyền (0/2). Nếu muốn làm tiếp: thêm 4–6 ca loại này, chạy Haiku; hụt tiếp mới viết luật hẹp.
+- Ứng viên từ lộ trình 200Lab (2026-11-20, Claude Code `--safe-mode`, haiku + sonnet, 2 lượt, chấm máy): side-effect-safety (webhook giao trùng) 4/4, tenant-isolation (search có hàm cũ chạy mọi tenant ngay cạnh) 4/4, agent-harness (vòng lặp không dừng, tool lỗi, tool lạ) 4/4. Baseline đã đạt nên **không làm skill**. Muốn làm tiếp thì cần ca khó hơn: lỗi giữa chừng (mail lỗi sau khi đã cộng điểm), hai request song song, tool phá hủy cần hỏi trước.
 - Lộ trình skill theo vai trò (BA, QA, pentest, DevOps, lead…): xem `docs/pain-catalog.md` ở repo lab. Mỗi skill bắt đầu bằng đo baseline; baseline đã đạt thì không làm.
 - Đối chiếu `docs/pain-catalog.md` (repo lab) với kết quả GPT deep research (`docs/research-prompt.md`).
 
